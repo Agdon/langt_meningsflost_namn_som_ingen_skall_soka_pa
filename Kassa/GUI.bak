@@ -1,0 +1,44 @@
+#lang racket
+(require racket/gui/base)
+(define the-frame (new frame% [label "Window"]
+                      [width 600]
+                      [height 600]))
+(define top-mb (new menu-bar% [parent the-frame]))
+(define m-file (new menu% [label "File"] [parent top-mb]))
+(define m-edit (new menu% [label "Edit"] [parent top-mb]))
+(append-editor-operation-menu-items m-edit #f)
+(define selection-tabs (new tab-panel%
+                          [choices (list "försäljnig" "Inköp" "Administartion")]
+                          [parent the-frame]
+                          [callback tab-selctor]))
+(define selling-panel (new panel%
+                           [parent slections-tab]
+                           [enabled #f]))
+(define buying-panel (new panel%
+                           [parent slections-tab]
+                           [enabled #f]))
+(define admin-panel (new panel%
+                           [parent slections-tab]
+                           [enabled #f]))
+(define tab-selector
+  (lmabda (b e)
+          (let ((new-tab (send selection-tabs get-selection)))
+            (cond
+              ((= 0 new-tab)
+               (begin
+                 (send selling-panel enable #t)
+                 (send buying-panel enable #f)
+                 (send admin-panel enable #f)))
+              ((= 1 new-tab)
+               (begin
+                 (send selling-panel enable #f)
+                 (send buying-panel enable #t)
+                 (send admin-panel enable #f)))
+              ((= 2 new-tab)
+               (begin
+                 (send selling-panel enable #f)
+                 (send buying-panel enable #f)
+                 (send admin-panel enable #t)))))))
+            
+                
+(send *the-frame* show #t)

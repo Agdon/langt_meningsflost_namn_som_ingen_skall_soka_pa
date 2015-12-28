@@ -1,0 +1,219 @@
+#lang racket
+(provide create-database-file)
+(provide read-database-file)
+;File handle
+;file format documentation can be found in a seperate document
+(define create-database-file ;;saves database to given path
+  (lambda (path database)
+    (define database-file (open-output-file path #:mode 'binary #:exists 'replace)) ;;opens port
+    (define item-count (send database get-item-count)) ;;number of items to ge sved
+    (define write-items-database-file ;;writes all items to the file
+      (lambda (count database)
+        (if (<= count 0)
+            (void)
+            (begin
+              (write-item-to-file (+ (- item-count count) 1))
+              (write-items-database-file (- count 1) database)))))
+    (define write-item-to-file ;; writes a item to the file
+      (lambda (index)
+        (begin
+          (write-byte 255 database-file) ;;write control
+          (write-byte 0 database-file)
+          ((lambda (name-string) ;;writes the name            
+             (define write-name ;;writes name as ascii characters 
+               (lambda (name)
+                 (if (<= (string-length name) 1)
+                     (write-byte (char->integer (string-ref name 0)) database-file)
+                     (begin
+                       (write-byte (char->integer (string-ref name 0)) database-file)
+                       (write-name (substring name 1))))))
+             (begin
+               (write-byte (string-length name-string) database-file);;writes length of name to file
+               (write-name name-string)))
+           (send database get-item-name index))
+          ((lambda (stock-count);;writes stock count as 16 bit int
+             (begin
+               (write-byte 
+                (if (negative? stock-count)
+                    1
+                    0)
+                database-file)
+               (write-byte (remainder (abs stock-count) 256) database-file)
+               (write-byte (quotient (abs stock-count) 256) database-file)))
+           (send database get-item-stock index))
+          ((lambda (price) ;;writes price as 32bit-int (in ore) (0-1 0-255 0-255 0-255 0-255)
+             ((lambda (16bit-1 16bit-2)
+                (begin
+                  (write-byte 
+                   (if (negative? price)
+                       1
+                       0)
+                   database-file)
+                  (write-byte (remainder (abs 16bit-1) 256) database-file)
+                  (write-byte (quotient (abs 16bit-1) 256) database-file)
+                  (write-byte (remainder (abs 16bit-2) 256) database-file)
+                  (write-byte (quotient (abs 16bit-2) 256) database-file)))
+              (remainder (abs price) 65536)
+              (quotient (abs price) 65536)))
+           (send database get-item-price index))
+          (write-byte (if (send database item-for-sale? index) ;writes if item is avalible for sale as 1=true and 0=false
+                          1
+                          0)
+                      database-file))))
+    (begin ;;actuall writing starts here
+      (write-byte 255 database-file) ;;writes control
+      (write-byte 1 database-file)
+      (let ((saldo (send database get-saldo))) ;writes saldo as 64bit-integer (sign followd by 8 bytes)
+        (write-byte (if (negative? saldo)
+                        1
+                        0)
+                    database-file)
+        (let ((32bit-1 (remainder (abs saldo) 4294967296))
+              (32bit-2 (quotient (abs saldo) 4294967296)))
+          (let ((16bit-1 (remainder 32bit-1 65536))
+                (16bit-2 (quotient 32bit-1 65536))
+                (16bit-3 (remainder 32bit-2 65536))
+                (16bit-4 (quotient 32bit-2 65536)))
+            (write-byte (remainder 16bit-1 256) database-file)
+            (write-byte (quotient 16bit-1 256) database-file)
+            (write-byte (remainder 16bit-2 256) database-file)
+            (write-byte (quotient 16bit-2 256) database-file)
+            (write-byte (remainder 16bit-3 256) database-file)
+            (write-byte (quotient 16bit-3 256) database-file)
+            (write-byte (remainder 16bit-4 256) database-file)
+            (write-byte (quotient 16bit-4 256) database-file))))
+      (write-items-database-file item-count database) ;;calls to write items
+      (close-output-port database-file)
+      'donewrite)))
+(define read-database-file ;;Read databas from file function takes empty database an returns database
+  (lambda (path database)
+    (define database-file (open-input-file path #:mode 'binary)) ;;Opens input port
+    (define read-items ;;read all items
+      (lambda ()
+        (define read-item ;;read item an adds it to the database with index return 'item or 'noitem
+          (lambda (index)
+            (if (eq? (read-byte database-file) 255) ;;checks control
+                (if (= (read-byte database-file) 0)
+                    (begin
+                      (send database create-new-item index) ;;tells database to create new item
+                      (let ((name-length (read-byte database-file)))
+                        (define read-name ;; reads name and returns it as a string
+                          (lambda (length out-list)
+                            (if (<= length 0)
+                                (bytes->string/utf-8 (list->bytes (reverse out-list)))
+                                (begin
+                                  (read-name (- length 1) (cons (read-byte database-file) out-list))))))
+                        (send database set-item-name! index (read-name name-length '()))) ;;sets name 
+                      (let* ((sign (read-byte database-file)) ;;reads stock as 16bit int
+                             (8bit-1 (read-byte database-file))
+                             (8bit-2 (read-byte database-file)))
+                        (send database add-item-stock ;add count of item to database
+                              index 
+                              (if (= sign 1)
+                                  (- (+ 8bit-1 (* 256 8bit-2)))
+                                  (+ 8bit-1 (* 256 8bit-2)))))
+                      (let* ((sign (read-byte database-file)) ;;reads price as 32bit-int
+                             (8bit-1 (read-byte database-file))
+                             (8bit-2 (read-byte database-file))
+                             (8bit-3 (read-byte database-file))
+                             (8bit-4 (read-byte database-file)))
+                        (send database set-item-price! ; sets price of item 
+                              index 
+                              (if (= sign 1)
+                                  (- ( + (+ 8bit-1 (* 256 8bit-2)) 
+                                         (* (+ 8bit-3 (* 256 8bit-4)) 65536)))
+                                  ( + (+ 8bit-1 (* 256 8bit-2)) 
+                                      (* (+ 8bit-3 (* 256 8bit-4)) 65536)))))
+                      (send database set-item-for-sale! index (if (= (read-byte database-file) 1)
+                                                                  #t
+                                                                  #f))
+                      'item);;was a item
+                    (error "Not valid item av this point")) ;;error in control byte
+                'noitem))) ;;noitem should trigger on eof
+        (define read-item-helper ;;small helper
+          (lambda (index last-out)
+            (if (eq? last-out 'item)
+                (read-item-helper (+ index 1) (read-item index))
+                (void))))
+        (read-item-helper 1 'item))) ;;call helper
+    (begin ;;actual reading starts here
+      (if (= (read-byte database-file) 255)
+          (if (= (read-byte database-file ) 1) ;;checks control bytes
+              (begin
+                (let* ((sign (read-byte database-file)) ;; reads 64bit intager saldo
+                       (8bit-1 (read-byte database-file))
+                       (8bit-2 (read-byte database-file))
+                       (8bit-3 (read-byte database-file))
+                       (8bit-4 (read-byte database-file))
+                       (8bit-5 (read-byte database-file))
+                       (8bit-6 (read-byte database-file))
+                       (8bit-7 (read-byte database-file))
+                       (8bit-8 (read-byte database-file))
+                       (16bit-1 (+ 8bit-1 (* 256 8bit-2)))
+                       (16bit-2 (+ 8bit-3 (* 256 8bit-4)))
+                       (16bit-3 (+ 8bit-5 (* 256 8bit-6)))
+                       (16bit-4 (+ 8bit-6 (* 256 8bit-7)))
+                       (32bit-1 (+ 16bit-1 (* 65536 16bit-2)))
+                       (32bit-2 (+ 16bit-3 (* 65536 16bit-4)))
+                       (64bit-1 (+ 32bit-1 (* 4294967296 32bit-2))))
+                  (send database add-saldo (if (= sign 1) ;;adds saldo to empty database
+                                               (- 64bit-1)
+                                               64bit-1)))
+                (read-items) ;;reads items
+                (close-input-port database-file)
+                database) ;;returns the filled databse
+              'invalidfile);;if control bytes don't match invalidfile is returned and should be handeld by save function to notify user. 
+          'invalidfile))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

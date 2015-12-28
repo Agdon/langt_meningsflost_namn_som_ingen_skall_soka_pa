@@ -1,0 +1,10 @@
+#lang racket
+;File handle
+(define create-database-file 
+  (lambda (path database)
+    (open-output-port path 'binary)
+    (define item-count (send database item-count))))
+(open-output-port 'test.regidata 'binary)
+    
+      
+    

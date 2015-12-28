@@ -1,0 +1,9 @@
+#lang racket
+(define testar (open-output-file "test.regidata" #:mode 'binary #:exists 'replace))
+(write-byte 255 testar)
+(write-byte 0 testar)
+(close-output-port testar)
+(define testi (open-input-file "test.regidata" #:mode 'binary))
+(read-byte testi)
+(read-byte testi)
+(close-input-port testi)

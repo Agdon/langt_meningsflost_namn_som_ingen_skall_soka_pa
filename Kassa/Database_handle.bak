@@ -1,0 +1,42 @@
+#lang racket
+;;Database handle
+(define database-class
+  (new
+   (class object%
+     (super-new)
+     (init-field
+      [items-list '()]
+      [saldo 0])
+     (define/private item-class
+       (new 
+        (class object%
+          (init-field
+           [name "unknown"]
+           [stock 0]
+           [price 0]
+           [for-sale? #f])
+          (define/public get-name
+            (lambda () name))
+          (define/public get-stock
+            (lambda () stock))
+          (define/public get-price
+            (lambda () price))
+          (define/public for-sale?
+            (lambda () for-sale?))
+          (define/public set-name!
+            (lambda (name-string)
+              (set! name name-string)))
+          (define/public add-stock
+            (lambda (amount)
+              (set! stock (+ stock amount))))
+          (define/public set-item-price!
+            (lambda (amount)
+              (set! price amount)))
+          (define/public set-for-sale
+            (lambda (bol
+            (set! for-sale? bol)))))))
+     (define/public create-new-item
+       (lambda (index)
+         
+      
+     
