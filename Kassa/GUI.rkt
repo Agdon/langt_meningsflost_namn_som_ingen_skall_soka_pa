@@ -46,7 +46,40 @@
     (define m-edit (new menu% [label "Edit"] [parent top-mb]))
     (define m-help (new menu% [label "Help"] [parent top-mb]))
     (append-editor-operation-menu-items m-edit #f)
-    (define buy-func
+    (define to-buy-list-handler 
+      (new (class object%
+             (super-new)
+             (init-field
+              [index-amount-list '()])
+             (define/public add
+               (lambda (index amount)
+                 (set! index-amount-list (cons (cons index amount) index-amount-list))))
+             (define/public remove
+               (lambda (index)
+                 (filter (lambda (element) (not (eq? (car element index)))) index-amount-list)))
+             (define/public clear
+               (lambda ()
+                 (set! index-amount-list '())))
+             (define/public get-indexses
+               (lambda ()
+                 (map car index-amount-list)))
+             (define/public get-amonuts
+               (lambda () (map cdr index-amount-list)))
+             (define/public get-full-list
+               (lambda () index-amount-list)))))
+    (define add-to-buy-list-func
+      (lambda (b e) (let* ((lst-nr (send add-to-buy-list-box-list get-selections))
+               (index (if (not (eq? lst-nr null))
+                          (send add-to-buy-list-box-list get-data (car lst-nr))
+                          'noneselected))
+               (num (string->number (send buy-amount get-value))))
+          (if (or (eq? index 'noneselected) (not num))
+              (void)
+              (begin
+                (send to-buy-list-handler add index num)
+                (send add-to-buy-list-frame show #f)
+                (update-lists))))))      
+    (define sell-func
       (lambda (b e)
         (let* ((lst-nr (send selling-list get-selections))
                (index (if (not (eq? lst-nr null))
@@ -63,33 +96,49 @@
                     (void)))))))
     (define update-lists
       (lambda ()
-        (let* ((indexses (send working-database get-all-in-use-index))
-              (first-col-list (map number->string indexses))
+        (let ((indexses (send working-database get-all-in-use-index)))
+          (define update-list
+            (lambda (index-list box-list)
+              (let ((first-col-list (map number->string index-list))
               (second-col-list (map
                                 (lambda (index)
                                   (send working-database get-item-name index))
-                                indexses))
+                                index-list))
               (third-col-list (map
                                (lambda (index)
                                  (number->string (/ (send working-database get-item-price index) 100)))
-                               indexses))
+                               index-list))
               (forth-col-list (map
                                (lambda (index)
                                  (number->string (send working-database get-item-stock index)))
-                               indexses)))
-          
-          (begin
-            (send selling-list set first-col-list second-col-list third-col-list forth-col-list)
-            (send add-to-buy-list-box-list set first-col-list second-col-list third-col-list forth-col-list)
-            (define data-set 
-              (lambda (num lst list-box)
-                (if (< num (length indexses))
+                               index-list)))
+                
+                (begin
+              (send box-list set first-col-list second-col-list third-col-list forth-col-list)
+          (data-set 0 index-list index-list box-list)))))
+          (define data-set 
+              (lambda (num lst index-list list-box)
+                (if (< num (length index-list))
                     (begin
                       (send list-box set-data num (car lst))
-                      (data-set (+ num 1) (cdr lst) list-box))
+                      (data-set (+ num 1) (cdr lst) index-list list-box))
                     (void))))
-            (data-set 0 indexses selling-list)
-            (data-set 0 indexses add-to-buy-list-box-list)
+          (define update-buy-list
+            (lambda (index-list box-list)
+              (let ((first-col-list (map number->string index-list))
+              (second-col-list (map
+                                (lambda (index)
+                                  (send working-database get-item-name index))
+                                index-list))
+              (third-col-list (map number->string (send to-buy-list-handler get-amonuts))))
+                (begin
+                (send box-list set first-col-list second-col-list third-col-list)
+                (data-set 0 index-list index-list box-list)))))
+                                
+          (begin
+            (update-buy-list (send to-buy-list-handler get-indexses) buying-list)
+            (update-list (filter (lambda (index) (send working-database item-for-sale? index)) indexses) selling-list)
+            (update-list indexses add-to-buy-list-box-list)
             ))))
     (define buy-list-add-func
       (lambda (b e)
@@ -163,7 +212,7 @@
     (define sell-button (new button%
                             [label "Kontant"]
                             [parent selling-panel]
-                            [callback buy-func]))
+                            [callback sell-func]))
     (define buying-list (new list-box%
                              [label ""]
                              [choices (list)]
@@ -237,7 +286,7 @@
     (define buy-button (new button%
                             [label "Lägg till"]
                             [parent add-to-buy-list-panel]
-                            [callback buy-func]))
+                            [callback add-to-buy-list-func]))
     
     
     (begin
