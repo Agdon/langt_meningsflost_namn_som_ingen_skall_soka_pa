@@ -1,0 +1,19 @@
+Date: 2015-12-30T22:13:52  Action: Sold   User: Erik_debug  Item: Oppegards  Amount: 1
+Date: 2015-12-30T22:13:53  Action: Sold   User: Erik_debug  Item: Lindermans apple  Amount: 1
+Date: 2015-12-30T22:13:54  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2015-12-30T22:13:55  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2015-12-30T22:13:57  Action: Sold   User: Erik_debug  Item: Lindermans apple  Amount: 1
+Date: 2015-12-30T22:13:58  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2015-12-30T22:13:59  Action: Sold   User: Erik_debug  Item: Weissterphaner  Amount: 1
+Date: 2015-12-30T22:14:00  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2015-12-30T22:14:02  Action: Sold   User: Erik_debug  Item: Weissterphaner  Amount: 1
+Date: 2015-12-30T22:14:03  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2015-12-30T22:14:05  Action: Sold   User: Erik_debug  Item: Oppegards  Amount: 1
+Date: 2015-12-30T22:14:06  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2015-12-30T22:14:07  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2015-12-30T22:14:29  Action: Bought   User: Erik_debug  Item: Bitburger  Amount: -100
+Date: 2015-12-30T22:14:29  Action: Bought   User: Erik_debug  Item: Mellerud  Amount: -100
+Date: 2015-12-30T22:14:29  Action: Bought   User: Erik_debug  Item: Oppegards  Amount: -100
+Date: 2015-12-30T22:14:38  Action: Name-change   User: Erik_debug  Old-name: Oppegards  New-name: Oppegardss
+Date: 2015-12-30T22:14:50  Action: Name-change   User: Erik_debug  Old-name: Oppegardss  New-name: Oppegards
+Date: 2015-12-30T22:15:01  Action: Price-change   User: Erik_debug  Name: Bitburger  New-price: 15
