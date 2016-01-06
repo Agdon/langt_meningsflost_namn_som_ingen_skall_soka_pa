@@ -17,3 +17,33 @@ Date: 2015-12-30T22:14:29  Action: Bought   User: Erik_debug  Item: Oppegards  A
 Date: 2015-12-30T22:14:38  Action: Name-change   User: Erik_debug  Old-name: Oppegards  New-name: Oppegardss
 Date: 2015-12-30T22:14:50  Action: Name-change   User: Erik_debug  Old-name: Oppegardss  New-name: Oppegards
 Date: 2015-12-30T22:15:01  Action: Price-change   User: Erik_debug  Name: Bitburger  New-price: 15
+Date: 2016-01-06T17:35:57  Action: Remove-item   User: Erik_debug  Name: Lindermans apple price: 20 amount in stock:19 For sale?No
+Date: 2016-01-06T17:40:15  Action: Remove-item   User: Erik_debug  Name:Weissterphaner  Price:25  Amount in stock:19  For sale? Yes
+Date: 2016-01-06T17:40:27  Action: Create ne item   User: Erik_debug  Index:4
+Date: 2016-01-06T17:40:31  Action: Create ne item   User: Erik_debug  Index:1
+Date: 2016-01-06T17:40:37  Action: Create ne item   User: Erik_debug  Index:5
+Date: 2016-01-06T17:40:41  Action: Create ne item   User: Erik_debug  Index:6
+Date: 2016-01-06T17:44:39  Action: Name-change   User: Erik_debug  Old-name: unknown  New-name: Strongbow
+Date: 2016-01-06T17:44:49  Action: Price-change   User: Erik_debug  Name: Strongbow  New-price: 25
+Date: 2016-01-06T18:21:42  Action: Create ne item   User: Erik_debug  Amount2000 Message: 
+Date: 2016-01-06T18:22:03  Action: Create ne item   User: Erik_debug  Amount2000 Message: testar
+Date: 2016-01-06T18:22:24  Action: Create ne item   User: Erik_debug  Amount2000 Message: testar
+Date: 2016-01-06T18:22:39  Action: Create ne item   User: Erik_debug  Amount55555555555555555 Message: 5
+Date: 2016-01-06T18:23:08  Action: Create ne item   User: Erik_debug  Amount-500000000 Message: 7
+Date: 2016-01-06T18:24:51  Action: Create ne item   User: Erik_debug  Amount1 Message: 1
+Date: 2016-01-06T18:25:03  Action: Create ne item   User: Erik_debug  Amount-1 Message: 1
+Date: 2016-01-06T18:25:56  Action: Create ne item   User: Erik_debug  Amount20000 Message: la till 200kr
+Date: 2016-01-06T19:07:09  Action: Create new item   User: Erik_debug  Index:4
+Date: 2016-01-06T19:07:18  Action: Name-change   User: Erik_debug  Old-name: unknown  New-name: hej
+Date: 2016-01-06T19:08:40  Action: Price-change   User: Erik_debug  Name: hej  New-price: 30
+Date: 2016-01-06T19:10:33  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-01-06T19:11:54  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-01-06T19:11:56  Action: Sold   User: Erik_debug  Item: Weissterphaner  Amount: 1
+Date: 2016-01-06T19:11:57  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-01-06T19:11:58  Action: Sold   User: Erik_debug  Item: Weissterphaner  Amount: 1
+Date: 2016-01-06T19:11:59  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-01-06T19:12:01  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-01-06T19:12:02  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-01-06T19:12:39  Action: Add saldo   User: Erik_debug  Amount: 2000kr Message: testar
+Date: 2016-01-06T19:36:26  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-01-06T19:36:52  Action: Sold   User: Erik_debug  Item: Weissterphaner  Amount: 1

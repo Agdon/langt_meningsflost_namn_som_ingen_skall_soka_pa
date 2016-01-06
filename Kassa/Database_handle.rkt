@@ -42,8 +42,14 @@
          (send (cdr (assoc index items-list)) for-sale?)))
      (define/public get-saldo
        (lambda () saldo))
+     (define/public get-inventory-value
+       (lambda ()
+         (apply + (map (lambda (element) (* (send (cdr element) get-stock) (send (cdr element) get-price))) items-list))))
      (define/public get-item-count
        (lambda () (length items-list)))
+     (define/public remove-item
+       (lambda (index)
+         (set! items-list (filter (lambda (element) (not (eq? (car element) index))) items-list))))
      (define/public sell
        (lambda (index num)
          (begin

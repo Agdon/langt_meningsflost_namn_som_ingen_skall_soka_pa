@@ -48,6 +48,33 @@
     (define m-file (new menu% [label "File"] [parent top-mb]))
     (define m-edit (new menu% [label "Edit"] [parent top-mb]))
     (define m-help (new menu% [label "Help"] [parent top-mb]))
+    (define m-file-Save (new menu-item%
+                             [label "Save as"]
+                             [parent m-file]
+                             [callback (lambda (b e)
+                                           (if (eq? 'donewrite (create-database-file (get-file) working-database))
+                                                (update-lists)
+                                                (bell)))]))
+    (define m-file-open (new menu-item%
+                             [label "Open backup"]
+                             [parent m-file]
+                             [callback (lambda (b e)
+                                           (if (eq? 'donewrite (create-database-file (string-append "recover_open" (date->string (current-date)) ".database") working-database))
+                                               (begin
+                                                (set! working-database (read-database-file (get-file) (new database-class)))
+                                                (update-lists))
+                                                (bell)))]))
+                    
+     (define m-file-New (new menu-item%
+                             [label "New"]
+                             [parent m-file]
+                             [callback (lambda (b e)
+                                           (if (and (confirm-modal) (eq? 'donewrite (create-database-file (string-append "recover_open" (date->string (current-date)) ".database") working-database)))
+                                               (begin
+                                                (set! working-database (new database-class))
+                                                (update-lists))
+                                                (bell)))]))               
+                              
     (append-editor-operation-menu-items m-edit #f)
     (define to-buy-list-handler 
       (new (class object%
@@ -276,6 +303,11 @@
             (update-list (filter (lambda (index) (send working-database item-for-sale? index)) indexses) selling-list)
             (update-list indexses add-to-buy-list-box-list)
             (update-list indexses item-edit-list)
+            (send saldo-message set-label (string-append "Saldo: " 
+                                                         (number->string (/ (send working-database get-saldo) 100)) 
+                                                         "kr  Värde på inventarier: " 
+                                                         (number->string (/ (send working-database get-inventory-value) 100))
+                                                         "kr"))
             ))))
     (define buy-list-add-func
       (lambda (b e)
@@ -370,6 +402,42 @@
     (define edit-horiz-panel-4
       (new horizontal-panel%
            [parent edit-vert-panel]))
+    (define edit-vert-panel2 (new group-box-panel%
+                               [label "Växel"] 
+                               [parent edit-vert-panel]))                            
+    (define edit-horiz-panel-5
+      (new horizontal-panel%
+           [parent edit-vert-panel2]))
+    (define saldo-message (new message%
+                               [label ""]
+                               [parent edit-horiz-panel-5]
+                               [min-width 300]))
+    (define add-saldo-button (new button%
+                                  [label "lägg till kr"]
+                                  [parent edit-horiz-panel-5]
+                                  [callback (lambda (b e)
+                                              (let* ((str (get-text-modal))
+                                                         (amount (if (number? (string->number str))
+                                                                    (* (string->number str) 100)
+                                                                    0)))
+                                                    (begin
+                                                      (display-to-file (string-append 
+                                                                         "Date: " 
+                                                                         (date->string (current-date) #t) 
+                                                                         "  Action: Add saldo "
+                                                                         "  User: " 
+                                                                         user-name
+                                                                         "  Amount: "
+                                                                         str
+                                                                         "kr Message: "
+                                                                         (get-text-modal)
+                                                                         "\r\n")
+                                                                        "Log.txt"
+                                                                        #:exists 'append)
+                                                      (send working-database add-saldo amount)
+                                                      (if (eq? 'donewrite (create-database-file "working.database" working-database))
+                                                          (update-lists)
+                                                          (void)))))]))
     (define edit-new-item-button (new button%
                                       [label "Ny vara"]
                                       [parent edit-horiz-panel-4]
@@ -379,11 +447,57 @@
                                                                     (string->number str)
                                                                     1)))
                                                     (begin
-                                                      (display index)
+                                                      (display-to-file (string-append 
+                                                                         "Date: " 
+                                                                         (date->string (current-date) #t) 
+                                                                         "  Action: Create new item "
+                                                                         "  User: " 
+                                                                         user-name
+                                                                         "  Index:"
+                                                                         (number->string index)
+                                                                         "\r\n")
+                                                                        "Log.txt"
+                                                                        #:exists 'append)
                                                       (send working-database create-new-item index)
                                                       (if (eq? 'donewrite (create-database-file "working.database" working-database))
                                                           (update-lists)
-                                                          (void)))))])) 
+                                                          (void)))))]))
+    (define edit-remove-item-button (new button%
+                                      [label "Ta bort vara"]
+                                      [parent edit-horiz-panel-4]
+                                      [callback (lambda (b e)
+                                                  (let* ((lst-nr (send item-edit-list get-selections))
+                                                      (index (if (not (eq? lst-nr null))
+                                                                 (send item-edit-list get-data (car lst-nr))
+                                                                 'noneselected)))
+                                                    (if (and (number? (string->number (send edit-price-text get-value)))(confirm-modal)  (not (eq? index 'noneselected)))
+                                                     (begin
+                                                       
+                                                       (display-to-file (string-append 
+                                                                         "Date: " 
+                                                                         (date->string (current-date) #t) 
+                                                                         "  Action: Remove-item "
+                                                                         "  User: " 
+                                                                         user-name 
+                                                                         "  Name:" 
+                                                                         (send working-database get-item-name index) 
+                                                                         "  Price:"
+                                                                         (number->string (/ (send working-database get-item-price index) 100))
+                                                                         "  Amount in stock:"
+                                                                         (number->string (send working-database get-item-stock index))
+                                                                         "  For sale? "
+                                                                         (if (send working-database item-for-sale? index)
+                                                                             "Yes"
+                                                                             "No")
+                                                                         "\r\n")
+                                                                        "Log.txt"
+                                                                        #:exists 'append)
+                                                       (send working-database remove-item index) 
+                                                      
+                                                      (if (eq? 'donewrite (create-database-file "working.database" working-database))
+                                                          (update-lists)
+                                                          (void)))
+                                                     (bell))))]))
     
     (define edit-name-text (new text-field%
                                 [parent edit-horiz-panel-1]
@@ -422,7 +536,7 @@
                                                        (if (eq? 'donewrite (create-database-file "working.database" working-database))
                                                            (update-lists)
                                                            (void)))
-                                                     (void))))]))
+                                                     (bell))))]))
     (define edit-name-button (new button%
                                   [label "Ändra"]
                                   [parent edit-horiz-panel-1]
@@ -452,7 +566,7 @@
                                                       (if (eq? 'donewrite (create-database-file "working.database" working-database))
                                                           (update-lists)
                                                           (void)))
-                                                    (void))))]))
+                                                    (bell))))]))
     
     (define edit-for-sale-check-box (new check-box%
                                          [label "Till försäljning"]
@@ -582,7 +696,8 @@
     
     
     (begin
-      
+     (send m-file-open enable #f)
+     (send m-file-New enable #f)
       (create-database-file (string-append "Backup_" (date->string (current-date)) ".database") working-database)
       (update-lists)
       (send the-frame show #t))))
