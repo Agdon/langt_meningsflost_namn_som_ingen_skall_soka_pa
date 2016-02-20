@@ -40,7 +40,6 @@
 (define call-primary-window
   (lambda (user-name rights-level)
     (define working-database (read-database-file "working.database" (new database-class)))
-    
     (define the-frame (new frame% [label "Kassa"]
                            [width 600]
                            [height 600]))
@@ -173,7 +172,6 @@
                          ]))
         (begin
           (send popup show #t)
-          (display "done")
           return-text)))
     
     

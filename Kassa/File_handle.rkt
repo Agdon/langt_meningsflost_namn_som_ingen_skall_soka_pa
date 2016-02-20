@@ -41,6 +41,16 @@
                (write-byte (remainder (abs stock-count) 256) database-file)
                (write-byte (quotient (abs stock-count) 256) database-file)))
            (send database get-item-stock index))
+          ((lambda (stock-count);;writes stock count-cellar as 16 bit int
+             (begin
+               (write-byte 
+                (if (negative? stock-count)
+                    1
+                    0)
+                database-file)
+               (write-byte (remainder (abs stock-count) 256) database-file)
+               (write-byte (quotient (abs stock-count) 256) database-file)))
+           (send database get-item-stock-cellar index))
           ((lambda (price) ;;writes price as 32bit-int (in ore) (0-1 0-255 0-255 0-255 0-255)
              ((lambda (16bit-1 16bit-2)
                 (begin
@@ -64,6 +74,25 @@
       (write-byte 255 database-file) ;;writes control
       (write-byte 1 database-file)
       (let ((saldo (send database get-saldo))) ;writes saldo as 64bit-integer (sign followd by 8 bytes)
+        (write-byte (if (negative? saldo)
+                        1
+                        0)
+                    database-file)
+        (let ((32bit-1 (remainder (abs saldo) 4294967296))
+              (32bit-2 (quotient (abs saldo) 4294967296)))
+          (let ((16bit-1 (remainder 32bit-1 65536))
+                (16bit-2 (quotient 32bit-1 65536))
+                (16bit-3 (remainder 32bit-2 65536))
+                (16bit-4 (quotient 32bit-2 65536)))
+            (write-byte (remainder 16bit-1 256) database-file)
+            (write-byte (quotient 16bit-1 256) database-file)
+            (write-byte (remainder 16bit-2 256) database-file)
+            (write-byte (quotient 16bit-2 256) database-file)
+            (write-byte (remainder 16bit-3 256) database-file)
+            (write-byte (quotient 16bit-3 256) database-file)
+            (write-byte (remainder 16bit-4 256) database-file)
+            (write-byte (quotient 16bit-4 256) database-file))))
+      (let ((saldo (send database get-saldo-valv))) ;writes saldo-valv as 64bit-integer (sign followd by 8 bytes)
         (write-byte (if (negative? saldo)
                         1
                         0)
@@ -108,6 +137,14 @@
                              (8bit-1 (read-byte database-file))
                              (8bit-2 (read-byte database-file)))
                         (send database add-item-stock ;add count of item to database
+                              index 
+                              (if (= sign 1)
+                                  (- (+ 8bit-1 (* 256 8bit-2)))
+                                  (+ 8bit-1 (* 256 8bit-2)))))
+                      (let* ((sign (read-byte database-file)) ;;reads stock-cellar as 16bit int
+                             (8bit-1 (read-byte database-file))
+                             (8bit-2 (read-byte database-file)))
+                        (send database add-item-stock-cellar ;add count of item to database
                               index 
                               (if (= sign 1)
                                   (- (+ 8bit-1 (* 256 8bit-2)))
@@ -157,6 +194,25 @@
                        (32bit-2 (+ 16bit-3 (* 65536 16bit-4)))
                        (64bit-1 (+ 32bit-1 (* 4294967296 32bit-2))))
                   (send database add-saldo (if (= sign 1) ;;adds saldo to empty database
+                                               (- 64bit-1)
+                                               64bit-1)))
+                (let* ((sign (read-byte database-file)) ;; reads 64bit intager saldo in safe
+                       (8bit-1 (read-byte database-file))
+                       (8bit-2 (read-byte database-file))
+                       (8bit-3 (read-byte database-file))
+                       (8bit-4 (read-byte database-file))
+                       (8bit-5 (read-byte database-file))
+                       (8bit-6 (read-byte database-file))
+                       (8bit-7 (read-byte database-file))
+                       (8bit-8 (read-byte database-file))
+                       (16bit-1 (+ 8bit-1 (* 256 8bit-2)))
+                       (16bit-2 (+ 8bit-3 (* 256 8bit-4)))
+                       (16bit-3 (+ 8bit-5 (* 256 8bit-6)))
+                       (16bit-4 (+ 8bit-6 (* 256 8bit-7)))
+                       (32bit-1 (+ 16bit-1 (* 65536 16bit-2)))
+                       (32bit-2 (+ 16bit-3 (* 65536 16bit-4)))
+                       (64bit-1 (+ 32bit-1 (* 4294967296 32bit-2))))
+                  (send database add-saldo-valv (if (= sign 1) ;;adds saldo in safe to empty database
                                                (- 64bit-1)
                                                64bit-1)))
                 (read-items) ;;reads items
