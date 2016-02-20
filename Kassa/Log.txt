@@ -85,3 +85,8 @@ Date: 2016-02-20T09:39:23  Action: Sold   User: Erik_debug  Item: ny  Amount: 1
 Date: 2016-02-20T10:03:53  Action: Create new item   User: Erik_debug  Index:1
 Date: 2016-02-20T10:12:04  Action: Name-change   User: Erik_debug  Old-name: unknown  New-name: EnVara
 Date: 2016-02-20T10:12:13  Action: Price-change   User: Erik_debug  Name: EnVara  New-price: 20
+Date: 2016-02-20T11:21:42  Action: Name-change   User: Erik_debug  Old-name: EnVara  New-name: EnVaran
+Date: 2016-02-20T11:21:56  Action: Price-change   User: Erik_debug  Name: EnVaran  New-price: 25
+Date: 2016-02-20T11:22:20  Action: Sold   User: Erik_debug  Item: EnVaran  Amount: 1
+Date: 2016-02-20T11:22:25  Action: Sold   User: Erik_debug  Item: EnVaran  Amount: 1
+Date: 2016-02-20T11:23:16  Action: Add saldo   User: Erik_debug  Amount: kr Message: 

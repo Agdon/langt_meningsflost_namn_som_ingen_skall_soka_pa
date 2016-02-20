@@ -22,7 +22,7 @@
                                [style (list 'single)]
                                [init-value ""]))
     (define user-password-box (new text-field%
-                                   [label "Passord"]
+                                   [label "Password"]
                                    [parent login-panel]
                                    [init-value ""]
                                    [style (list 'single 'password)]))
@@ -37,13 +37,13 @@
     
     (send login-frame show #t)))
 
-(define call-primary-window
+(define call-primary-window ;;huvud fönster
   (lambda (user-name rights-level)
-    (define working-database (read-database-file "working.database" (new database-class)))
-    (define the-frame (new frame% [label "Kassa"]
+    (define working-database (read-database-file "working.database" (new database-class))) ;;läser in databas
+    (define the-frame (new frame% [label "Kassa"] ;;fönster
                            [width 600]
                            [height 600]))
-    (define top-mb (new menu-bar% [parent the-frame]))
+    (define top-mb (new menu-bar% [parent the-frame])) ;; skapar meny rad
     (define m-file (new menu% [label "File"] [parent top-mb]))
     (define m-edit (new menu% [label "Edit"] [parent top-mb]))
     (define m-help (new menu% [label "Help"] [parent top-mb]))
@@ -74,8 +74,8 @@
                                                 (update-lists))
                                                 (bell)))]))               
                               
-    (append-editor-operation-menu-items m-edit #f)
-    (define to-buy-list-handler 
+    (append-editor-operation-menu-items m-edit #f) ;; slut med meny rad
+    (define to-buy-list-handler ;; hanterar inköpslistan
       (new (class object%
              (super-new)
              (init-field
@@ -92,11 +92,11 @@
              (define/public get-indexses
                (lambda ()
                  (map car index-amount-list)))
-             (define/public get-amonuts
+             (define/public get-amounts
                (lambda () (map cdr index-amount-list)))
              (define/public get-full-list
                (lambda () index-amount-list)))))
-    (define confirm-modal
+    (define confirm-modal ;; simpel popup som kan användas flera gånger
       (lambda ()
         (define return-bol #f)
         (define popup
@@ -128,14 +128,11 @@
                [callback (lambda (b e)
                            (begin
                              (set! return-bol #t)
-                             (send popup show #f)
-                             ))
-                         ]))
+                             (send popup show #f)))]))
         (begin
-          (send popup show #t)
-          ;(display "done")
+          (send popup show #t) ;(display "done")
           return-bol)))
-    (define get-text-modal
+    (define get-text-modal ;;simpel popup som frågar efter en sträng
       (lambda ()
         (define return-text "")
         (define popup
@@ -167,15 +164,12 @@
                [callback (lambda (b e)
                            (begin
                              (set! return-text (send modal-text get-value))
-                             (send popup show #f)
-                             ))
-                         ]))
+                             (send popup show #f)))]))
         (begin
           (send popup show #t)
           return-text)))
     
-    
-    (define confirm-buy-func
+    (define confirm-buy-func ;;använd då ett inköp konfirmeras ATT GÖRA skriva ut ett inköps kvitto
       (lambda (b e)
         (let ((t-price (+ (* 100 (string->number (send buy-total-price-kr get-value))) (string->number (send buy-total-price-ore get-value)))))
           (if (and (confirm-modal) (number? t-price))
@@ -291,7 +285,7 @@
                                       (lambda (index)
                                         (send working-database get-item-name index))
                                       index-list))
-                    (third-col-list (map number->string (send to-buy-list-handler get-amonuts))))
+                    (third-col-list (map number->string (send to-buy-list-handler get-amounts))))
                 (begin
                   (send box-list set first-col-list second-col-list third-col-list)
                   (data-set 0 index-list index-list box-list)))))
@@ -305,8 +299,7 @@
                                                          (number->string (/ (send working-database get-saldo) 100)) 
                                                          "kr  Värde på inventarier: " 
                                                          (number->string (/ (send working-database get-inventory-value) 100))
-                                                         "kr"))
-            ))))
+                                                         "kr"))))))
     (define buy-list-add-func
       (lambda (b e)
         (send add-to-buy-list-frame show #t)))
@@ -340,15 +333,13 @@
                   (set! old-tab new-tab)))))))
        0))
     (define selection-tabs (new tab-panel%
-                                [choices (list "försäljnig" "Inköp" "Administartion")]
+                                [choices (list "Försäljnig" "Inköp" "Administartion")]
                                 [parent the-frame]
                                 [callback tab-selector]))
     (define selling-panel (new group-box-panel%
                                [label ""] 
                                [parent selection-tabs]
-                               [enabled #t]
-                               
-                               ))
+                               [enabled #t]))
     (define buying-panel (new group-box-panel%
                               [label "Inköps lista"]
                               [parent selection-tabs]
@@ -362,8 +353,7 @@
     (define item-edit-panel (new group-box-panel%
                                  [label "Ändra varor"]
                                  [parent admin-panel]
-                                 [enabled #t]
-                                 ))
+                                 [enabled #t]))
     (define item-edit-list (new list-box%
                                 [label ""]
                                 [choices (list)]
@@ -380,9 +370,7 @@
                                                     (send edit-for-sale-check-box set-value (send working-database item-for-sale? index))
                                                     (send edit-name-text set-value (send working-database get-item-name index))
                                                     (send edit-price-text set-value (number->string (/ (send working-database get-item-price index) 100))))
-                                                  (void))))]
-                                
-                                
+                                                  (void))))]                               
                                 [vert-margin 20]
                                 [horiz-margin 20]))
     (define edit-vert-panel
@@ -689,10 +677,7 @@
     (define buy-button (new button%
                             [label "Lägg till"]
                             [parent add-to-buy-list-panel]
-                            [callback add-to-buy-list-func]))
-    
-    
-    
+                            [callback add-to-buy-list-func]))    
     (begin
      (send m-file-open enable #f)
      (send m-file-New enable #f)
