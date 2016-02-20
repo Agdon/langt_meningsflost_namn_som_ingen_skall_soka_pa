@@ -5,14 +5,20 @@ byte  value description \n
 2      1     -start 2 \n
 3      0-1   -tecken på växel \n
 4-12   0-255 -64-bit int växel i öre \n
+13     0-1   -tecken pÃ¥ kassaskÃ¥p
+14-22  0-255 -64-bit int summa i kassaskÃ¥p i Ã¶ren 
 skriver hur en imventarie ser ut flera kan följa efer varandra \n
-byte  value  description \n
-1     255    -ny inventarie \n
-2     0      -ny inventarie använder två kontroll bitar. \n
-3     0-255  -längd på inventrins namn \n
-4-x   0-128  -namnet angivet i ascii \n
-x+1   0-1    -tecken på anatl av inventrien \n
-x+2-3 0-255  -16-bit int som ger antal av vara i lager \n
-x+4   0-1    -tecken på pris 0=+ 1=- \n
-x+4-8 0-255  -32-bit int som anger pris i öre \n
-x+9   0-1    -till försäljning? 0=nej 1=ja \n
+byte     value  description \n
+1        255    -ny inventarie \n
+2        0      -ny inventarie använder två kontroll bitar. \n
+3        0-255  -längd på inventariens namn \n
+4-x      0-128  -namnet angivet i ascii \n
+x+1      0-1    -tecken på antal av varan i fÃ¶rrÃ¥d \n
+x+2-3    0-255  -16-bit int som ger antal av vara i lager \n
+x+4      0-1    -tecken pÃ¥ antal av varan i fÃ¶rrÃ¥d
+x+5-6    0-255  -16-bit int som ger antal av vara i fÃ¶rrÃ¥d
+x+7      0-1    -tecken på pris 0=+ 1=- \n
+x+8-12   0-255  -32-bit int som anger pris i öre \n
+x+13     0-1    -tecken pÃ¥ kostnad, 0=+, 1=-
+x+14-18  0-255  -32-bit int som anger kostnad i Ã¶re
+x+19     0-1    -till försäljning? 0=nej 1=ja \n

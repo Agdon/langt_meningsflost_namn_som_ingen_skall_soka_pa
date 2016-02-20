@@ -66,21 +66,6 @@
               (remainder (abs price) 65536)
               (quotient (abs price) 65536)))
            (send database get-item-price index))
-          ((lambda (cost) ;;writes cost as 32bit-int (in ore) (0-1 0-255 0-255 0-255 0-255)
-             ((lambda (16bit-1 16bit-2)
-                (begin
-                  (write-byte 
-                   (if (negative? cost)
-                       1
-                       0)
-                   database-file)
-                  (write-byte (remainder (abs 16bit-1) 256) database-file)
-                  (write-byte (quotient (abs 16bit-1) 256) database-file)
-                  (write-byte (remainder (abs 16bit-2) 256) database-file)
-                  (write-byte (quotient (abs 16bit-2) 256) database-file)))
-              (remainder (abs cost) 65536)
-              (quotient (abs cost) 65536)))
-           (send database get-item-cost index))
           (write-byte (if (send database item-for-sale? index) ;writes if item is avalible for sale as 1=true and 0=false
                           1
                           0)
@@ -176,18 +161,6 @@
                                          (* (+ 8bit-3 (* 256 8bit-4)) 65536)))
                                   ( + (+ 8bit-1 (* 256 8bit-2)) 
                                       (* (+ 8bit-3 (* 256 8bit-4)) 65536)))))
-                      (let* ((sign (read-byte database-file)) ;;reads cost as 32bit-int
-                             (8bit-1 (read-byte database-file))
-                             (8bit-2 (read-byte database-file))
-                             (8bit-3 (read-byte database-file))
-                             (8bit-4 (read-byte database-file)))
-                        (send database set-item-cost! ; sets cost of item 
-                              index 
-                              (if (= sign 1)
-                                  (- ( + (+ 8bit-1 (* 256 8bit-2)) 
-                                         (* (+ 8bit-3 (* 256 8bit-4)) 65536)))
-                                  ( + (+ 8bit-1 (* 256 8bit-2)) 
-                                      (* (+ 8bit-3 (* 256 8bit-4)) 65536)))))
                       (send database set-item-for-sale! index (if (= (read-byte database-file) 1)
                                                                   #t
                                                                   #f))
@@ -240,8 +213,8 @@
                        (32bit-2 (+ 16bit-3 (* 65536 16bit-4)))
                        (64bit-1 (+ 32bit-1 (* 4294967296 32bit-2))))
                   (send database add-saldo-valv (if (= sign 1) ;;adds saldo in safe to empty database
-                                                    (- 64bit-1)
-                                                    64bit-1)))
+                                               (- 64bit-1)
+                                               64bit-1)))
                 (read-items) ;;reads items
                 (close-input-port database-file)
                 database) ;;returns the filled databse

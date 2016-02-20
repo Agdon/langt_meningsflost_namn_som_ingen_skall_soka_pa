@@ -8,6 +8,7 @@
      [items-list '()] ;assoc lista
      [saldo-vaxel 0]
      [saldo-valv 0])
+    
     (define/public create-new-item
       (lambda (index)
         (if (assoc index items-list)
@@ -22,9 +23,6 @@
     (define/public set-item-price!
       (lambda (index inte)
         (send (cdr (assoc index items-list)) set-price! inte)))
-    (define/public set-item-cost!
-      (lambda (index inte)
-        (send (cdr (assoc index items-list)) set-cost! inte)))
     (define/public add-item-stock
       (lambda (index inte)
         (send (cdr (assoc index items-list)) add-stock inte)))
@@ -52,9 +50,6 @@
     (define/public get-item-price
       (lambda (index)
         (send (cdr (assoc index items-list)) get-price)))
-    (define/public get-item-cost
-      (lambda (index)
-        (send (cdr (assoc index items-list)) get-cost)))
     (define/public item-for-sale?
       (lambda (index)
         (send (cdr (assoc index items-list)) for-sale?)))
@@ -62,13 +57,6 @@
       (lambda () saldo-vaxel))
     (define/public get-saldo-valv
       (lambda () saldo-valv))
-    (define/public move-saldo-vaxel->saldo-valv;;Note positive if moving from stupan to valv
-      (lambda (amount)
-        (if (and (< amount saldo-vaxel) (> amount (- saldo-valv)))
-            (begin
-              (set! saldo-valv (+ saldo-valv amount))
-              (set! saldo-vaxel (- saldo-vaxel amount)))
-            (void))))
     (define/public get-inventory-value
       (lambda ()
         (apply + (map (lambda (element) (* (+ (send (cdr element) get-stock-cellar) 
@@ -96,7 +84,6 @@
      [name "unknown"]
      [stock 0]
      [price 0]
-     [cost 0]
      [stock-cellar 0]
      [for-sale #f])
     (define/public get-name
@@ -107,8 +94,6 @@
       (lambda () stock-cellar))
     (define/public get-price
       (lambda () price))
-    (define/public get-cost
-      (lambda () cost))
     (define/public for-sale?
       (lambda () for-sale))
     (define/public set-name!
@@ -122,7 +107,7 @@
         (set! stock (+ stock-cellar amount))))
     (define/public move-stock-cellar->stock;;Note positive if moving to stupan from the cellar
       (lambda (amount)
-        (if (and (< amount stock-cellar) (> amount (- stock)))
+        (if (not (> amount stock-cellar))
             (begin
               (set! stock (+ stock amount))
               (set! stock-cellar (- stock-cellar amount)))
@@ -130,9 +115,6 @@
     (define/public set-price!
       (lambda (amount)
         (set! price amount)))
-    (define/public set-cost!
-      (lambda (amount)
-        (set! cost amount)))
     (define/public set-for-sale
       (lambda (bol)
         (set! for-sale bol)))))   
