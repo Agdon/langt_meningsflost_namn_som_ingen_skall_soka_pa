@@ -72,7 +72,7 @@
     (define/public get-inventory-value
       (lambda ()
         (apply + (map (lambda (element) (* (+ (send (cdr element) get-stock-cellar) 
-                                              (send (cdr element) get-stock)) (send (cdr element) get-price))) items-list))))
+                                              (send (cdr element) get-stock)) (send (cdr element) get-cost))) items-list))))
     (define/public get-item-count
       (lambda () (length items-list)))
     (define/public remove-item
@@ -101,8 +101,8 @@
      [for-sale #f])
     (define/public get-name
       (lambda () name))
-    (define/public get-stock
-      (lambda () stock))
+    (define/public get-stock 
+         (lambda () stock))
     (define/public get-stock-cellar
       (lambda () stock-cellar))
     (define/public get-price
@@ -116,10 +116,10 @@
         (set! name name-string)))
     (define/public add-stock
       (lambda (amount)
-        (set! stock (+ stock amount))))
+          (set! stock (+ stock amount))))
     (define/public add-stock-cellar
       (lambda (amount)
-        (set! stock (+ stock-cellar amount))))
+        (set! stock-cellar (+ stock-cellar amount))))
     (define/public move-stock-cellar->stock;;Note positive if moving to stupan from the cellar
       (lambda (amount)
         (if (and (< amount stock-cellar) (> amount (- stock)))

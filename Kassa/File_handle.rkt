@@ -43,6 +43,7 @@
            (send database get-item-stock index))
           ((lambda (stock-count);;writes stock count-cellar as 16 bit int
              (begin
+               ;(display stock-count)
                (write-byte 
                 (if (negative? stock-count)
                     1
@@ -86,6 +87,7 @@
                           0)
                       database-file))))
     (begin ;;actuall writing starts here
+      ;(display "Skriver")
       (write-byte 255 database-file) ;;writes control
       (write-byte 1 database-file)
       (let ((saldo (send database get-saldo))) ;writes saldo as 64bit-integer (sign followd by 8 bytes)
@@ -148,14 +150,16 @@
                                 (begin
                                   (read-name (- length 1) (cons (read-byte database-file) out-list))))))
                         (send database set-item-name! index (read-name name-length '()))) ;;sets name 
+                      
                       (let* ((sign (read-byte database-file)) ;;reads stock as 16bit int
                              (8bit-1 (read-byte database-file))
                              (8bit-2 (read-byte database-file)))
-                        (send database add-item-stock ;add count of item to database
-                              index 
-                              (if (= sign 1)
-                                  (- (+ 8bit-1 (* 256 8bit-2)))
-                                  (+ 8bit-1 (* 256 8bit-2)))))
+                          (send database add-item-stock ;add count of item to database
+                                index 
+                                (if (= sign 1)
+                                    (- (+ 8bit-1 (* 256 8bit-2)))
+                                    (+ 8bit-1 (* 256 8bit-2)))))
+                          
                       (let* ((sign (read-byte database-file)) ;;reads stock-cellar as 16bit int
                              (8bit-1 (read-byte database-file))
                              (8bit-2 (read-byte database-file)))
