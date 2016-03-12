@@ -203,3 +203,96 @@ Date: 2016-03-11T17:54:50  Action: Sold   User: Erik_debug  Item: Mellerud  Amou
 Date: 2016-03-11T17:54:54  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
 Date: 2016-03-11T17:58:41  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
 Date: 2016-03-11T17:58:45  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T18:06:29  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T18:10:28  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T18:10:30  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T18:10:32  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T18:11:44  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T18:11:46  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T18:11:59  Action: Bought   User: Erik_debug  Item: Mellerud  Amount: 78
+Date: 2016-03-11T18:12:02  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T18:12:03  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T18:12:05  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T18:12:06  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T18:12:08  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-11T20:06:55  Action: Bought   User: Erik_debug  Item: Bitburger  Amount: 101
+Date: 2016-03-11T20:07:53  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-11T20:07:54  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-11T20:07:56  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-11T20:08:27  Action: Bought   User: Erik_debug  Item: Ginger Joe  Amount: 10
+Date: 2016-03-11T20:23:52  Action: Add saldo   User: Erik_debug  Amount: -100kr Message: hej
+Date: 2016-03-11T20:24:04  Action: Add saldo   User: Erik_debug  Amount: -1000kr Message: hej
+Date: 2016-03-11T21:49:35  Action: Price-change   User: Erik_debug  Name: Super dyr storflaska  New-price: 99.9
+Date: 2016-03-11T21:58:01  Action: Create new item   User: Erik_debug  Index:1
+Date: 2016-03-11T21:58:34  Action: Name-change   User: Erik_debug  Old-name: unknown  New-name: mellerud
+Date: 2016-03-11T21:58:59  Action: Price-change   User: Erik_debug  Name: mellerud  New-price: 15
+Date: 2016-03-11T21:59:22  Action: Add saldo   User: Erik_debug  Amount: 2500kr Message: hej
+Date: 2016-03-11T21:59:40  Action: cost-change   User: Erik_debug  Name: mellerud  New-cost: 15
+Date: 2016-03-11T21:59:58  Action: Bought   User: Erik_debug  Item: mellerud  Amount: 48
+Date: 2016-03-12T12:28:08  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:31:21  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:31:24  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:31:29  Action: Create new item   User: Erik_debug  Index:2
+Date: 2016-03-12T12:31:44  Action: Name-change   User: Erik_debug  Old-name: unknown  New-name: Bitburger
+Date: 2016-03-12T12:31:51  Action: Price-change   User: Erik_debug  Name: Bitburger  New-price: 15
+Date: 2016-03-12T12:32:05  Action: cost-change   User: Erik_debug  Name: Bitburger  New-cost: 15
+Date: 2016-03-12T12:32:15  Action: Bought   User: Erik_debug  Item: Bitburger  Amount: 28
+Date: 2016-03-12T12:32:33  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-12T12:32:35  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-12T12:32:37  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:32:40  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-12T12:32:42  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:32:53  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-12T12:32:57  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:32:59  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:33:15  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:33:18  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-12T12:33:20  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:33:22  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:33:23  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-12T12:33:26  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:33:28  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:33:31  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T12:33:33  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-12T13:38:20  Action: Sold   User: Erik_debug  Item: mellerud  Amount: 1
+Date: 2016-03-12T13:38:35  Action: Name-change   User: Erik_debug  Old-name: mellerud  New-name: Mellerud
+Date: 2016-03-12T13:39:30  Action: Create new item   User: Erik_debug  Index:50
+Date: 2016-03-12T13:39:51  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-12T13:40:28  Action: Create new item   User: Erik_debug  Index:50
+Date: 2016-03-12T13:41:14  Action: Create new item   User: Erik_debug  Index:1
+Date: 2016-03-12T13:41:38  Action: Create new item   User: Erik_debug  Index:1
+Date: 2016-03-12T13:41:43  Action: Create new item   User: Erik_debug  Index:1
+Date: 2016-03-12T13:41:45  Action: Create new item   User: Erik_debug  Index:1
+Date: 2016-03-12T13:41:49  Action: Create new item   User: Erik_debug  Index:1
+Date: 2016-03-12T13:41:53  Action: Create new item   User: Erik_debug  Index:10
+Date: 2016-03-12T13:52:18  Action: Create new item   User: Erik_debug  Index:1
+Date: 2016-03-12T13:52:21  Action: Create new item   User: Erik_debug  Index:1
+Date: 2016-03-12T13:52:38  Action: Create new item   User: Erik_debug  Index:1
+Date: 2016-03-12T14:01:28  Action: Create new item   User: Erik_debug  Index:10
+Date: 2016-03-12T15:08:24  Action: Create new item   User: Erik_debug  Index:1
+Date: 2016-03-12T15:08:30  Action: Create new item   User: Erik_debug  Index:3
+Date: 2016-03-12T15:08:52  Action: Create new item   User: Erik_debug  Index:2
+Date: 2016-03-12T15:10:27  Action: Remove-item   User: Erik_debug  Name:unknown  Price:0  Amount in stock:0  For sale? No
+Date: 2016-03-12T15:10:56  Action: Remove-item   User: Erik_debug  Name:unknown  Price:0  Amount in stock:0  For sale? No
+Date: 2016-03-12T15:11:09  Action: Create new item   User: Erik_debug  Index:2
+Date: 2016-03-12T15:11:12  Action: Create new item   User: Erik_debug  Index:3
+Date: 2016-03-12T15:11:15  Action: Create new item   User: Erik_debug  Index:4
+Date: 2016-03-12T15:11:19  Action: Remove-item   User: Erik_debug  Name:unknown  Price:0  Amount in stock:0  For sale? No
+Date: 2016-03-12T15:23:32  Action: Create new item   User: Erik_debug  Index:10
+Date: 2016-03-12T15:25:03  Action: Create new item   User: Erik_debug  Index:50
+Date: 2016-03-12T15:25:37  Action: Name-change   User: Erik_debug  Old-name: unknown  New-name: Marke
+Date: 2016-03-12T15:25:44  Action: Price-change   User: Erik_debug  Name: Marke  New-price: 20
+Date: 2016-03-12T15:25:52  Action: cost-change   User: Erik_debug  Name: Marke  New-cost: 20
+Date: 2016-03-12T15:26:56  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:26:59  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:27:01  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:27:03  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:27:04  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:27:06  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:27:07  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:27:09  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:27:11  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:27:12  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:27:14  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:27:15  Action: Sold   User: Erik_debug  Item: Marke  Amount: 1
+Date: 2016-03-12T15:27:34  Action: Bought   User: Erik_debug  Item: Marke  Amount: 12

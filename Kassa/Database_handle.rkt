@@ -11,7 +11,7 @@
     (define/public create-new-item
       (lambda (index)
         (if (assoc index items-list)
-            (void) ;replace with proper error message!
+            (error "item exits") ;replace with proper error message!
             (set! items-list (cons (cons index (new item-class)) items-list)))))
     (define/public set-item-name!
       (lambda (index string)

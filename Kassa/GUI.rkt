@@ -41,9 +41,13 @@
   (lambda (user-name rights-level)
     (define start-time (current-date))
     
-    (define working-database (read-database-file "working.database" (new database-class)));(if (file-exists? "working.database")
-                                 ;(read-database-file "working.database" (new database-class)) ;;läser in databas
-                                 ;(new database-class))) ;;skapar ny om ingen finns
+    (define working-database(if (file-exists? "working.database")
+                                (read-database-file "working.database" (new database-class)) ;;läser in databas
+                                (new database-class))) ;;skapar ny om ingen finns
+    (define stats-file "statistics.txt")
+    (if (file-exists? "statistics.txt")
+        (void)
+        (display-to-file "(list " "statistics.txt" #:exists 'replace))
     (define the-frame (new frame% [label "Kassa"] ;;fönster
                            [width 600]
                            [height 600]))
@@ -81,28 +85,31 @@
     (append-editor-operation-menu-items m-edit #f);; slut med meny rad
     (define index-amont-list-handlers
       (class object%
-             (super-new)
-             (init-field
-              [index-amount-list '()])
-             (define/public add
-               (lambda (index amount)
-                 (if (assoc index index-amount-list)
-                     (let ((element (assoc index index-amount-list)))
-                       (set! index-amount-list (cons (cons index (+ amount (cdr element))) (remv element index-amount-list))))
-                 (set! index-amount-list (cons (cons index amount) index-amount-list)))))
-             (define/public remove
-               (lambda (index)
-                 (set! index-amount-list (filter (lambda (element) (not (eq? (car element) index))) index-amount-list))))
-             (define/public clear
-               (lambda ()
-                 (set! index-amount-list '())))
-             (define/public get-indexses
-               (lambda ()
-                 (map car index-amount-list)))
-             (define/public get-amounts
-               (lambda () (map cdr index-amount-list)))
-             (define/public get-full-list
-               (lambda () index-amount-list))))
+        (super-new)
+        (init-field
+         [index-amount-list '()])
+        (define/public add
+          (lambda (index amount)
+            (if (assoc index index-amount-list)
+                (let ((element (assoc index index-amount-list)))
+                  (set! index-amount-list (cons (cons index (+ amount (cdr element))) (remv element index-amount-list))))
+                (set! index-amount-list (cons (cons index amount) index-amount-list)))))
+        (define/public remove
+          (lambda (index)
+            (set! index-amount-list (filter (lambda (element) (not (eq? (car element) index))) index-amount-list))))
+        (define/public clear
+          (lambda ()
+            (set! index-amount-list '())))
+        (define/public get-indexses
+          (lambda ()
+            (map car index-amount-list)))
+        (define/public get-amont-index
+          (lambda (index)
+            (cdr (assoc index index-amount-list))))
+        (define/public get-amounts
+          (lambda () (map cdr index-amount-list)))
+        (define/public get-full-list
+          (lambda () index-amount-list))))
     (define to-buy-list-handler ;; hanterar inköpslistan
       (new index-amont-list-handlers))
     (define sold-list-handler
@@ -110,13 +117,13 @@
     (define write-sale-recipt
       (lambda (index-amount-list file-name)
         (begin
-          (display-to-file (string-append ";Date;"(date->string (current-date)) ";Forsaljning Attestupan;Namn;" "\r\n" ";Index;Namn;Antal;Styck pris in;Totalpris in;Styck pris ut;Totalpris ut; \r\n") file-name #:exists 'replace)
+          (display-to-file (string-append ";Date;Start;"(date->string start-time #t) ";End;" (date->string (current-date) #t) ";Forsaljning Attestupan;Namn;" "\r\n" ";Index;Namn;Antal;Styck pris in;Totalpris in;Styck pris ut;Totalpris ut; \r\n") file-name #:exists 'replace)
           (for-each (lambda (element)
-                            (begin
-                              (display-to-file (string-append ";"(number->string (car element)) ";" (send working-database get-item-name (car element)) ";" (number->string (cdr element)) ";" (number->string (real->double-flonum  (/ (send working-database get-item-cost (car element)) 100))) ";"  (number->string (real->double-flonum (/ (* (cdr element) (send working-database get-item-cost (car element))) 100))) ";" (number->string (real->double-flonum  (/ (send working-database get-item-price (car element)) 100))) ";" (number->string (real->double-flonum (/ (* (cdr element) (send working-database get-item-price (car element))) 100))) "; \r\n") file-name #:exists 'append)))
-                          index-amount-list)
+                      (begin
+                        (display-to-file (string-append ";"(number->string (car element)) ";" (send working-database get-item-name (car element)) ";" (number->string (cdr element)) ";" (number->string (real->double-flonum  (/ (send working-database get-item-cost (car element)) 100))) ";"  (number->string (real->double-flonum (/ (* (cdr element) (send working-database get-item-cost (car element))) 100))) ";" (number->string (real->double-flonum  (/ (send working-database get-item-price (car element)) 100))) ";" (number->string (real->double-flonum (/ (* (cdr element) (send working-database get-item-price (car element))) 100))) "; \r\n") file-name #:exists 'append)))
+                    index-amount-list)
           (display-to-file (string-append ";;;;TOTALT INKOPS PRIS:;"(number->string (real->double-flonum (apply + (map (lambda (element) (/ (* (cdr element) (send working-database get-item-cost (car element))) 100)) index-amount-list)))) ";TOTAL FORSALJNING;" (number->string (real->double-flonum (apply + (map (lambda (element) (/ (* (cdr element) (send working-database get-item-price (car element))) 100)) index-amount-list)))) ";\r\n") file-name #:exists 'append))))
-          
+    
     (define confirm-modal ;; simpel popup som kan användas flera gånger
       (lambda ()
         (define return-bol #f)
@@ -193,34 +200,36 @@
     (define confirm-buy-func ;;använd då ett inköp konfirmeras ATT GÖRA skriva ut ett inköps kvitto
       (lambda (b e)
         (let ((t-price (+ (* 100 (string->number (send buy-total-price-kr get-value))) (string->number (send buy-total-price-ore get-value)))))
-          (if (and (confirm-modal) (number? t-price))
+          (if (and (confirm-modal) (integer? t-price))
               (begin
-                (let ((csv-name (string-append "Iköpskvitto_" (string-replace (date->string (current-date) #t) ":" "_") ".csv"))) 
-                (display-to-file (string-append ";Date;" (date->string (current-date) #t) ";Inkop Attestupan;Namn;" "\r\n" ";Index;Namn;Antal;Styck pris;Totalpris;\r\n") csv-name #:exists 'replace)  
-                (for-each (lambda (element)
-                            (begin
-                              (send working-database add-item-stock (car element) (cdr element))
-                              (display-to-file (string-append ";"(number->string (car element)) ";" (send working-database get-item-name (car element)) ";" (number->string (cdr element)) ";" (number->string (real->double-flonum  (/ (send working-database get-item-cost (car element)) 100))) ";"  (number->string (real->double-flonum (/ (* (cdr element) (send working-database get-item-cost (car element))) 100))) "; \r\n") csv-name #:exists 'append)  
-                              (display-to-file (string-append 
-                                                "Date: " 
-                                                (date->string (current-date) #t)
-                                                "  Action: Bought "
-                                                "  User: " 
-                                                user-name 
-                                                "  Item: " 
-                                                (send working-database get-item-name (car element)) 
-                                                "  Amount: "
-                                                (number->string (cdr element))
-                                                "\r\n")
-                                               "Log.txt"
-                                               #:exists 'append)))
-                          (send to-buy-list-handler get-full-list))
+                (let ((csv-name (string-append "Iköpskvitto_" (string-replace (date->string (current-date) #t) ":" "_") ".csv")))
+                  (send buy-total-price-kr set-value "0")
+                  (send buy-total-price-ore set-value "0")
+                  (display-to-file (string-append ";Date;" (date->string (current-date) #t) ";Inkop Attestupan;Namn;" "\r\n" ";Index;Namn;Antal;Styck pris;Totalpris;\r\n") csv-name #:exists 'replace)  
+                  (for-each (lambda (element)
+                              (begin
+                                (send working-database add-item-stock (car element) (cdr element))
+                                (display-to-file (string-append ";"(number->string (car element)) ";" (send working-database get-item-name (car element)) ";" (number->string (cdr element)) ";" (number->string (real->double-flonum  (/ (send working-database get-item-cost (car element)) 100))) ";"  (number->string (real->double-flonum (/ (* (cdr element) (send working-database get-item-cost (car element))) 100))) "; \r\n") csv-name #:exists 'append)  
+                                (display-to-file (string-append 
+                                                  "Date: " 
+                                                  (date->string (current-date) #t)
+                                                  "  Action: Bought "
+                                                  "  User: " 
+                                                  user-name 
+                                                  "  Item: " 
+                                                  (send working-database get-item-name (car element)) 
+                                                  "  Amount: "
+                                                  (number->string (cdr element))
+                                                  "\r\n")
+                                                 "Log.txt"
+                                                 #:exists 'append)))
+                            (send to-buy-list-handler get-full-list))
                   (display-to-file (string-append ";;;;TOTALT:;"(number->string (real->double-flonum (/ t-price 100))) "; \r\n") csv-name #:exists 'append) 
-                (send to-buy-list-handler clear)
-                (send working-database add-saldo (- t-price))
-                (if (eq? 'donewrite (create-database-file "working.database" working-database))
-                    (update-lists)
-                    (void))))
+                  (send to-buy-list-handler clear)
+                  (send working-database add-saldo (- t-price))
+                  (if (eq? 'donewrite (create-database-file "working.database" working-database))
+                      (update-lists)
+                      (void))))
               (void)))))
     
     (define add-to-buy-list-func
@@ -233,17 +242,22 @@
                           (void)
                           (begin
                             (send to-buy-list-handler add index num)
+                            (send buy-total-price-kr set-value (number->string (quotient (+ (* (send working-database get-item-cost index) num) (* 100 (string->number (send buy-total-price-kr get-value)))) 100))) 
+                            (send buy-total-price-ore set-value (number->string (remainder (+ (* (send working-database get-item-cost index) num) (* 100 (string->number (send buy-total-price-kr get-value)))) 100))) 
                             (send add-to-buy-list-frame show #f)
                             (update-lists))))))
     (define buy-list-remove-func
       (lambda (b e) (let* ((lst-nr (send buying-list get-selections))
                            (index (if (not (eq? lst-nr null))
                                       (send buying-list get-data (car lst-nr))
-                                      'noneselected)))
+                                      'noneselected))
+                           (num (send to-buy-list-handler get-amont-index index)))
                       (if (eq? index 'noneselected)
                           (void)
                           (begin
                             (send to-buy-list-handler remove index)
+                            (send buy-total-price-kr set-value (number->string (quotient (- (- (* (send working-database get-item-cost index) num)  (* 100 (string->number (send buy-total-price-kr get-value))))) 100)))
+                            (send buy-total-price-kr set-value (number->string (remainder (- (- (* (send working-database get-item-cost index) num) (* 100 (string->number (send buy-total-price-kr get-value))))) 100))) 
                             (update-lists))))))   
     (define sell-func
       (lambda (b e)
@@ -257,7 +271,7 @@
               (begin
                 (send working-database sell index num)
                 (send sold-list-handler add index num)
-                (write-sale-recipt (send sold-list-handler get-full-list) (string-append "Försäljnings_" (string-replace (date->string start-time #t) ":" "_") ".csv"))
+                (write-sale-recipt (send sold-list-handler get-full-list) (string-append "Försäljnings_kvitto_" (string-replace (date->string start-time #t) ":" "_") ".csv"))
                 (display-to-file (string-append 
                                   "Date: " 
                                   (date->string (current-date) #t) 
@@ -294,18 +308,22 @@
                                        (number->string (send working-database get-item-stock index)))
                                      index-list))
                     (fith-col-list (map
-                                     (lambda (index)
-                                       (number->string (/ (send working-database get-item-cost index) 100)))
-                                     index-list))
+                                    (lambda (index)
+                                      (number->string (real->double-flonum (/ (send working-database get-item-cost index) 100))))
+                                    index-list))
                     (sixth-col-list (map
                                      (lambda (index)
                                        (number->string (send working-database get-item-stock-cellar index)))
-                                     index-list)))
+                                     index-list))
+                    (sold-list-third-col (map
+                                          number->string
+                                          (send sold-list-handler get-amounts))))
                 
                 (begin
-                  (if (eq? box-list item-edit-list)
-                   (send box-list set first-col-list second-col-list third-col-list forth-col-list fith-col-list sixth-col-list)   
-                  (send box-list set first-col-list second-col-list third-col-list forth-col-list))
+                  (cond 
+                    ((eq? box-list item-edit-list) (send box-list set first-col-list second-col-list third-col-list forth-col-list fith-col-list sixth-col-list))
+                    ((eq? box-list sold-list) (send box-list set first-col-list second-col-list sold-list-third-col)) 
+                      (else (send box-list set first-col-list second-col-list third-col-list forth-col-list)))
                   (data-set 0 index-list index-list box-list)))))
           (define data-set 
             (lambda (num lst index-list list-box)
@@ -331,6 +349,7 @@
             (update-list (filter (lambda (index) (send working-database item-for-sale? index)) indexses) selling-list)
             (update-list indexses add-to-buy-list-box-list)
             (update-list indexses item-edit-list)
+            (update-list (send sold-list-handler get-indexses) sold-list)
             (send saldo-message set-label (string-append "Saldo: " 
                                                          (number->string (/ (send working-database get-saldo) 100)) 
                                                          "kr  Värde på inventarier: " 
@@ -406,7 +425,7 @@
                                                     (send edit-for-sale-check-box set-value (send working-database item-for-sale? index))
                                                     (send edit-name-text set-value (send working-database get-item-name index))
                                                     (send edit-price-text set-value (number->string (/ (send working-database get-item-price index) 100)))
-                                                  (send edit-cost-text set-value (number->string (/ (send working-database get-item-cost index) 100))))
+                                                    (send edit-cost-text set-value  (number->string (send working-database get-item-cost index))))
                                                   (void))))]                               
                                 [vert-margin 20]
                                 [horiz-margin 20]))
@@ -443,7 +462,7 @@
                                   [parent edit-horiz-panel-5]
                                   [callback (lambda (b e)
                                               (let* ((str (get-text-modal))
-                                                     (amount (if (number? (string->number str))
+                                                     (amount (if (integer? (string->number str))
                                                                  (* (string->number str) 100)
                                                                  0)))
                                                 (begin
@@ -469,9 +488,10 @@
                                       [parent edit-horiz-panel-4]
                                       [callback (lambda (b e)
                                                   (let* ((str (get-text-modal))
-                                                         (index (if (number? (string->number str))
+                                                         (index (if (integer? (string->number str))
                                                                     (string->number str)
-                                                                    1)))
+                                                                   #f)))
+                                                    (if index
                                                     (begin
                                                       (display-to-file (string-append 
                                                                         "Date: " 
@@ -484,10 +504,12 @@
                                                                         "\r\n")
                                                                        "Log.txt"
                                                                        #:exists 'append)
+                                                      
                                                       (send working-database create-new-item index)
                                                       (if (eq? 'donewrite (create-database-file "working.database" working-database))
                                                           (update-lists)
-                                                          (void)))))]))
+                                                          (void)))
+                                                    (void))))]))
     (define edit-remove-item-button (new button%
                                          [label "Ta bort vara"]
                                          [parent edit-horiz-panel-4]
@@ -496,7 +518,8 @@
                                                             (index (if (not (eq? lst-nr null))
                                                                        (send item-edit-list get-data (car lst-nr))
                                                                        'noneselected)))
-                                                       (if (and (number? (string->number (send edit-price-text get-value)))(confirm-modal)  (not (eq? index 'noneselected)))
+                                                       (if (and (integer? (string->number (send edit-price-text get-value)))(confirm-modal)  (not (eq? index 'noneselected)))
+                                                           (if (not (and (not (eq? (send working-database get-item-stock index) 0)) (eq? (send working-database get-item-stock-cellar index) 0)))
                                                            (begin
                                                              
                                                              (display-to-file (string-append 
@@ -523,6 +546,7 @@
                                                              (if (eq? 'donewrite (create-database-file "working.database" working-database))
                                                                  (update-lists)
                                                                  (void)))
+                                                           (bell))
                                                            (bell))))]))
     
     (define edit-name-text (new text-field%
@@ -534,9 +558,9 @@
                                  [label "Pris Kr:"]
                                  [init-value "Skriv nytt pris här"]))
     (define edit-cost-text (new text-field%
-                                 [parent edit-horiz-panel-25]
-                                 [label "Inköp Öre:"]
-                                 [init-value "Skriv nytt inköps pris här"]))
+                                [parent edit-horiz-panel-25]
+                                [label "Inköp Öre:"]
+                                [init-value "Skriv nytt inköps pris här"]))
     (define edit-price-button (new button%
                                    [label "Ändra"]
                                    [parent edit-horiz-panel-2]
@@ -545,7 +569,7 @@
                                                       (index (if (not (eq? lst-nr null))
                                                                  (send item-edit-list get-data (car lst-nr))
                                                                  'noneselected)))
-                                                 (if (and (number? (string->number (send edit-price-text get-value)))(confirm-modal)  (not (eq? index 'noneselected)))
+                                                 (if (and (integer? (string->number (send edit-price-text get-value)))(confirm-modal)  (not (eq? index 'noneselected)))
                                                      (begin
                                                        
                                                        (display-to-file (string-append 
@@ -568,35 +592,35 @@
                                                            (void)))
                                                      (bell))))]))
     (define edit-cost-button (new button%
-                                   [label "Ändra"]
-                                   [parent edit-horiz-panel-25]
-                                   [callback (lambda (b e)
-                                               (let* ((lst-nr (send item-edit-list get-selections))
-                                                      (index (if (not (eq? lst-nr null))
-                                                                 (send item-edit-list get-data (car lst-nr))
-                                                                 'noneselected)))
-                                                 (if (and (number? (string->number (send edit-cost-text get-value)))(confirm-modal)  (not (eq? index 'noneselected)))
-                                                     (begin
-                                                       
-                                                       (display-to-file (string-append 
-                                                                         "Date: " 
-                                                                         (date->string (current-date) #t) 
-                                                                         "  Action: cost-change "
-                                                                         "  User: " 
-                                                                         user-name 
-                                                                         "  Name: " 
-                                                                         (send working-database get-item-name index) 
-                                                                         "  New-cost: "
-                                                                         (send edit-price-text get-value)
-                                                                         "\r\n")
-                                                                        "Log.txt"
-                                                                        #:exists 'append)
-                                                       (send working-database set-item-cost! index (string->number (send edit-cost-text get-value)))
-                                                       
-                                                       (if (eq? 'donewrite (create-database-file "working.database" working-database))
-                                                           (update-lists)
-                                                           (void)))
-                                                     (bell))))]))
+                                  [label "Ändra"]
+                                  [parent edit-horiz-panel-25]
+                                  [callback (lambda (b e)
+                                              (let* ((lst-nr (send item-edit-list get-selections))
+                                                     (index (if (not (eq? lst-nr null))
+                                                                (send item-edit-list get-data (car lst-nr))
+                                                                'noneselected)))
+                                                (if (and (integer? (string->number (send edit-cost-text get-value)))(confirm-modal)  (not (eq? index 'noneselected)))
+                                                    (begin
+                                                      
+                                                      (display-to-file (string-append 
+                                                                        "Date: " 
+                                                                        (date->string (current-date) #t) 
+                                                                        "  Action: cost-change "
+                                                                        "  User: " 
+                                                                        user-name 
+                                                                        "  Name: " 
+                                                                        (send working-database get-item-name index) 
+                                                                        "  New-cost: "
+                                                                        (send edit-price-text get-value)
+                                                                        "\r\n")
+                                                                       "Log.txt"
+                                                                       #:exists 'append)
+                                                      (send working-database set-item-cost! index (string->number (send edit-cost-text get-value)))
+                                                      
+                                                      (if (eq? 'donewrite (create-database-file "working.database" working-database))
+                                                          (update-lists)
+                                                          (void)))
+                                                    (bell))))]))
     (define edit-name-button (new button%
                                   [label "Ändra"]
                                   [parent edit-horiz-panel-1]
@@ -645,16 +669,25 @@
                                                            (void)) ))]))
     
     
-    
+    (define selling-horizpanel (new horizontal-panel%
+                                    [parent selling-panel]
+                                    [enabled #t]))
     (define selling-list (new list-box%
                               [label ""]
                               [choices (list)]
-                              [parent selling-panel]
+                              [parent selling-horizpanel]
                               [style (list 'single 'column-headers)]
                               [columns (list "Index" "Namn" "Pris" "Antal i lager")]
                               [vert-margin 20]
                               [horiz-margin 20]))
-    
+    (define sold-list (new list-box%
+                              [label ""]
+                              [choices (list)]
+                              [parent selling-horizpanel]
+                              [style (list 'single 'column-headers)]
+                              [columns (list "Index" "Namn" "Antal sålda")]
+                              [vert-margin 20]
+                              [horiz-margin 20]))
     (define sell-amount (new text-field%
                              [parent selling-panel]
                              [vert-margin 5]
@@ -753,7 +786,6 @@
                             [parent add-to-buy-list-panel]
                             [callback add-to-buy-list-func]))    
     (begin
-      (display (send working-database get-item-stock 1))
       (send m-file-open enable #f)
       (send m-file-New enable #f)
       (create-database-file (string-append "Backup_" (date->string (current-date)) ".database") working-database)
