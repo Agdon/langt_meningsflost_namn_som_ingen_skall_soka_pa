@@ -87,7 +87,10 @@
       (lambda ()
         (if (null? items-list)
             '()
-            (reverse (map car items-list)))))))
+            (reverse (map car items-list)))))
+    (define/public sort-items-by-index
+      (lambda ()
+        (set! items-list (sort items-list (lambda (a b) (> (car a) (car b)))))))))
 
 (define item-class
   (class object%
@@ -122,7 +125,7 @@
         (set! stock-cellar (+ stock-cellar amount))))
     (define/public move-stock-cellar->stock;;Note positive if moving to stupan from the cellar
       (lambda (amount)
-        (if (and (< amount stock-cellar) (> amount (- stock)))
+        (if (and (<= amount stock-cellar) (>= amount (- stock)))
             (begin
               (set! stock (+ stock amount))
               (set! stock-cellar (- stock-cellar amount)))

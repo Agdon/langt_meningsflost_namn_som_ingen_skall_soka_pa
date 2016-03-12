@@ -271,6 +271,7 @@
               (begin
                 (send working-database sell index num)
                 (send sold-list-handler add index num)
+                (display-to-file (string-append "(list " (number->string (current-seconds)) "  " (list->string (list #\")) (send working-database get-item-name index) (list->string (list #\")) "  " (number->string num) "" " " (number->string (send working-database get-item-cost index)) "  " (number->string (send working-database get-item-price index)) " ) ")  "statistics.txt" #:exists 'append)
                 (write-sale-recipt (send sold-list-handler get-full-list) (string-append "Försäljnings_kvitto_" (string-replace (date->string start-time #t) ":" "_") ".csv"))
                 (display-to-file (string-append 
                                   "Date: " 
@@ -323,7 +324,7 @@
                   (cond 
                     ((eq? box-list item-edit-list) (send box-list set first-col-list second-col-list third-col-list forth-col-list fith-col-list sixth-col-list))
                     ((eq? box-list sold-list) (send box-list set first-col-list second-col-list sold-list-third-col)) 
-                      (else (send box-list set first-col-list second-col-list third-col-list forth-col-list)))
+                    (else (send box-list set first-col-list second-col-list third-col-list forth-col-list)))
                   (data-set 0 index-list index-list box-list)))))
           (define data-set 
             (lambda (num lst index-list list-box)
@@ -490,26 +491,28 @@
                                                   (let* ((str (get-text-modal))
                                                          (index (if (integer? (string->number str))
                                                                     (string->number str)
-                                                                   #f)))
+                                                                    #f)))
                                                     (if index
-                                                    (begin
-                                                      (display-to-file (string-append 
-                                                                        "Date: " 
-                                                                        (date->string (current-date) #t) 
-                                                                        "  Action: Create new item "
-                                                                        "  User: " 
-                                                                        user-name
-                                                                        "  Index:"
-                                                                        (number->string index)
-                                                                        "\r\n")
-                                                                       "Log.txt"
-                                                                       #:exists 'append)
-                                                      
-                                                      (send working-database create-new-item index)
-                                                      (if (eq? 'donewrite (create-database-file "working.database" working-database))
-                                                          (update-lists)
-                                                          (void)))
-                                                    (void))))]))
+                                                        (begin
+                                                          (display-to-file (string-append 
+                                                                            "Date: " 
+                                                                            (date->string (current-date) #t) 
+                                                                            "  Action: Create new item "
+                                                                            "  User: " 
+                                                                            user-name
+                                                                            "  Index:"
+                                                                            (number->string index)
+                                                                            "\r\n")
+                                                                           "Log.txt"
+                                                                           #:exists 'append)
+                                                          
+                                                          (send working-database create-new-item index)
+                                                          (if (eq? 'donewrite (create-database-file "working.database" working-database))
+                                                              (update-lists)
+                                                              (void)))
+                                                        (void))))]))
+    
+    
     (define edit-remove-item-button (new button%
                                          [label "Ta bort vara"]
                                          [parent edit-horiz-panel-4]
@@ -519,36 +522,51 @@
                                                                        (send item-edit-list get-data (car lst-nr))
                                                                        'noneselected)))
                                                        (if (and (integer? (string->number (send edit-price-text get-value)))(confirm-modal)  (not (eq? index 'noneselected)))
-                                                           (if (not (and (not (eq? (send working-database get-item-stock index) 0)) (eq? (send working-database get-item-stock-cellar index) 0)))
-                                                           (begin
-                                                             
-                                                             (display-to-file (string-append 
-                                                                               "Date: " 
-                                                                               (date->string (current-date) #t) 
-                                                                               "  Action: Remove-item "
-                                                                               "  User: " 
-                                                                               user-name 
-                                                                               "  Name:" 
-                                                                               (send working-database get-item-name index) 
-                                                                               "  Price:"
-                                                                               (number->string (/ (send working-database get-item-price index) 100))
-                                                                               "  Amount in stock:"
-                                                                               (number->string (send working-database get-item-stock index))
-                                                                               "  For sale? "
-                                                                               (if (send working-database item-for-sale? index)
-                                                                                   "Yes"
-                                                                                   "No")
-                                                                               "\r\n")
-                                                                              "Log.txt"
-                                                                              #:exists 'append)
-                                                             (send working-database remove-item index) 
-                                                             
-                                                             (if (eq? 'donewrite (create-database-file "working.database" working-database))
-                                                                 (update-lists)
-                                                                 (void)))
-                                                           (bell))
+                                                           (if (not (and (not (eq? (send working-database get-item-stock index) 0)) (not (eq? (send working-database get-item-stock-cellar index) 0))))
+                                                               (begin
+                                                                 
+                                                                 (display-to-file (string-append 
+                                                                                   "Date: " 
+                                                                                   (date->string (current-date) #t) 
+                                                                                   "  Action: Remove-item "
+                                                                                   "  User: " 
+                                                                                   user-name 
+                                                                                   "  Name:" 
+                                                                                   (send working-database get-item-name index) 
+                                                                                   "  Price:"
+                                                                                   (number->string (/ (send working-database get-item-price index) 100))
+                                                                                   "  Amount in stock:"
+                                                                                   (number->string (send working-database get-item-stock index))
+                                                                                   "  For sale? "
+                                                                                   (if (send working-database item-for-sale? index)
+                                                                                       "Yes"
+                                                                                       "No")
+                                                                                   "\r\n")
+                                                                                  "Log.txt"
+                                                                                  #:exists 'append)
+                                                                 (send working-database remove-item index) 
+                                                                 
+                                                                 (if (eq? 'donewrite (create-database-file "working.database" working-database))
+                                                                     (update-lists)
+                                                                     (void)))
+                                                               (bell))
                                                            (bell))))]))
-    
+    (define edit-move-stock-button (new button%
+                                        [label "Flytta till källaren"]
+                                        [parent edit-horiz-panel-4]
+                                        [callback (lambda (b e)
+                                                    (let*  ((lst-nr (send item-edit-list get-selections))
+                                                            (index (if (not (eq? lst-nr null))
+                                                                       (send item-edit-list get-data (car lst-nr))
+                                                                       'noneselected))
+                                                            (str (get-text-modal)))
+                                                      (if (and (integer? index) (integer? (string->number str)))
+                                                          (begin 
+                                                            (send working-database move-item-stock index (- (string->number str)))
+                                                            (if (eq? 'donewrite (create-database-file "working.database" working-database))
+                                                                (update-lists)
+                                                                (void)))
+                                                          (bell))))]))
     (define edit-name-text (new text-field%
                                 [parent edit-horiz-panel-1]
                                 [label "Namn"]
@@ -681,13 +699,13 @@
                               [vert-margin 20]
                               [horiz-margin 20]))
     (define sold-list (new list-box%
-                              [label ""]
-                              [choices (list)]
-                              [parent selling-horizpanel]
-                              [style (list 'single 'column-headers)]
-                              [columns (list "Index" "Namn" "Antal sålda")]
-                              [vert-margin 20]
-                              [horiz-margin 20]))
+                           [label ""]
+                           [choices (list)]
+                           [parent selling-horizpanel]
+                           [style (list 'single 'column-headers)]
+                           [columns (list "Index" "Namn" "Antal sålda")]
+                           [vert-margin 20]
+                           [horiz-margin 20]))
     (define sell-amount (new text-field%
                              [parent selling-panel]
                              [vert-margin 5]
@@ -788,6 +806,7 @@
     (begin
       (send m-file-open enable #f)
       (send m-file-New enable #f)
+      (send working-database sort-items-by-index)
       (create-database-file (string-append "Backup_" (date->string (current-date)) ".database") working-database)
       (update-lists)
       (send the-frame show #t))))
