@@ -1,0 +1,27 @@
+#lang racket
+(require racket/file)
+(provide setup-serial-port  serial-port-write)
+(define setup-serial-port
+  (lambda (port-name baudrate)
+          (when (eq? (system-type 'os) 'windows)
+            (if (system (string-append "mode " port-name ":")) ;; detect if device connected     
+                (if (not (system (string-append  "mode " port-name ": baud="
+                                                 (number->string baudrate) "parity=N data=8 stop=1"))) ;; set the baud rate and other params
+                    (error "Failed to open the connection with " port-name "verify if your device is plugged in correctly") ;;error if device notconnected      
+                    port-name)
+                (error "Failed to open the connection with " port-name " verify if your device is plugged in correctly") ;;error if device not connected
+                )
+            )))
+          
+   (define serial-port-write
+     (lambda (port-name str)
+       (if (system (string-append "echo " str " > " port-name))
+           (void)
+           (error "faild to write to" port-name))))
+
+(define serial-port-read 
+  (lambda (port-name)
+    (let ((serial-port (open-input-file (string-append "\\\\.\\" port-name) #:mode 'binary)))
+      (begin
+         (read-byte serial-port)
+         (close-input-port serial-port)))))

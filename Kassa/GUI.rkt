@@ -2,6 +2,7 @@
 (require racket/gui/base)
 (require "File_handle.rkt")
 (require "Database_handle.rkt")
+(require "serial_com_win.rkt")
 (require racket/file)
 (require racket/date)
 (date-display-format 'iso-8601)
@@ -39,15 +40,21 @@
 
 (define call-primary-window ;;huvud fönster
   (lambda (user-name rights-level)
+    (define com-port (setup-serial-port (file->string "com_port.txt") 9600))
     (define start-time (current-date))
     
     (define working-database(if (file-exists? "working.database")
                                 (read-database-file "working.database" (new database-class)) ;;läser in databas
                                 (new database-class))) ;;skapar ny om ingen finns
     (define stats-file "statistics.txt")
+    (define saldo-stats-file "saldo_stats.csv")
+    (if (file-exists? "saldo_stats.csv")
+        (void)
+        (display-to-file ";Date;kassa;valv \n\r" "saldo_stats.csv" #:exists 'replace))
     (if (file-exists? "statistics.txt")
         (void)
         (display-to-file "(list " "statistics.txt" #:exists 'replace))
+    (define start-saldo (send working-database get-saldo))
     (define the-frame (new frame% [label "Kassa"] ;;fönster
                            [width 600]
                            [height 600]))
@@ -122,7 +129,8 @@
                       (begin
                         (display-to-file (string-append ";"(number->string (car element)) ";" (send working-database get-item-name (car element)) ";" (number->string (cdr element)) ";" (number->string (real->double-flonum  (/ (send working-database get-item-cost (car element)) 100))) ";"  (number->string (real->double-flonum (/ (* (cdr element) (send working-database get-item-cost (car element))) 100))) ";" (number->string (real->double-flonum  (/ (send working-database get-item-price (car element)) 100))) ";" (number->string (real->double-flonum (/ (* (cdr element) (send working-database get-item-price (car element))) 100))) "; \r\n") file-name #:exists 'append)))
                     index-amount-list)
-          (display-to-file (string-append ";;;;TOTALT INKOPS PRIS:;"(number->string (real->double-flonum (apply + (map (lambda (element) (/ (* (cdr element) (send working-database get-item-cost (car element))) 100)) index-amount-list)))) ";TOTAL FORSALJNING;" (number->string (real->double-flonum (apply + (map (lambda (element) (/ (* (cdr element) (send working-database get-item-price (car element))) 100)) index-amount-list)))) ";\r\n") file-name #:exists 'append))))
+          (display-to-file (string-append ";;;;TOTALT INKOPS PRIS:;"(number->string (real->double-flonum (apply + (map (lambda (element) (/ (* (cdr element) (send working-database get-item-cost (car element))) 100)) index-amount-list)))) ";TOTAL FORSALJNING;" (number->string (real->double-flonum (apply + (map (lambda (element) (/ (* (cdr element) (send working-database get-item-price (car element))) 100)) index-amount-list)))) ";\r\n") file-name #:exists 'append)
+          (display-to-file (string-append ";Kassa-in:;" (number->string (real->double-flonum (/ start-saldo 100))) ";Kassa-ut:;" (number->string (real->double-flonum (/ (send working-database get-saldo) 100)))) file-name #:exists 'append))))
     
     (define confirm-modal ;; simpel popup som kan användas flera gånger
       (lambda ()
@@ -287,6 +295,7 @@
                                  "Log.txt"
                                  #:exists 'append)
                 (send sell-amount set-value "1")
+                (serial-port-write com-port "1")
                 (if (eq? 'donewrite (create-database-file "working.database" working-database))
                     (update-lists)
                     (void)))))))
@@ -351,10 +360,12 @@
             (update-list indexses add-to-buy-list-box-list)
             (update-list indexses item-edit-list)
             (update-list (send sold-list-handler get-indexses) sold-list)
-            (send saldo-message set-label (string-append "Saldo: " 
-                                                         (number->string (/ (send working-database get-saldo) 100)) 
+            (send saldo-message set-label (string-append "Saldo växel: " 
+                                                         (number->string (real->double-flonum (/ (send working-database get-saldo) 100)))
+                                                         "kr Saldo valv: "
+                                                         (number->string (real->double-flonum (/ (send working-database get-saldo-valv) 100)))
                                                          "kr  Värde på inventarier: " 
-                                                         (number->string (/ (send working-database get-inventory-value) 100))
+                                                         (number->string (real->double-flonum (/ (send working-database get-inventory-value) 100)))
                                                          "kr"))))))
     (define buy-list-add-func
       (lambda (b e)
@@ -457,9 +468,23 @@
     (define saldo-message (new message%
                                [label ""]
                                [parent edit-horiz-panel-5]
-                               [min-width 300]))
+                               [min-width 400]))
+    (define move-saldo-button (new button%
+                                  [label "flytta pengar till valv"]
+                                  [parent edit-horiz-panel-5]
+                                  [callback (lambda (b e)
+                                              (let* ((str (get-text-modal))
+                                                     (amount (if (integer? (string->number str))
+                                                                 (* (string->number str) 100)
+                                                                 0)))
+                                                (begin
+                                                  
+                                                  (send working-database move-saldo-vaxel->saldo-valv amount)
+                                                  (if (eq? 'donewrite (create-database-file "working.database" working-database))
+                                                      (update-lists)
+                                                      (void)))))]))
     (define add-saldo-button (new button%
-                                  [label "lägg till kr"]
+                                  [label "lägg till pengar"]
                                   [parent edit-horiz-panel-5]
                                   [callback (lambda (b e)
                                               (let* ((str (get-text-modal))
@@ -567,6 +592,11 @@
                                                                 (update-lists)
                                                                 (void)))
                                                           (bell))))]))
+     (define edit-open-cassh (new button%
+                                        [label "Öppna kassan"]
+                                        [parent edit-horiz-panel-4]
+                                        [callback (lambda (b e)
+                                                    (serial-port-write com-port "1"))]))
     (define edit-name-text (new text-field%
                                 [parent edit-horiz-panel-1]
                                 [label "Namn"]
@@ -807,6 +837,9 @@
       (send m-file-open enable #f)
       (send m-file-New enable #f)
       (send working-database sort-items-by-index)
+      (display-to-file (string-append ";" (date->string start-time) ";" (number->string (real->double-flonum (/ (send working-database get-saldo) 100))) ";" (number->string (real->double-flonum (/ (send working-database get-saldo-valv) 100))) " \n\r") "saldo_stats.csv" #:exists 'append)
       (create-database-file (string-append "Backup_" (date->string (current-date)) ".database") working-database)
       (update-lists)
-      (send the-frame show #t))))
+      (send the-frame show #t)
+     )))
+ (call-primary-window "defult-user" 3)

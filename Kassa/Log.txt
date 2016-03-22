@@ -369,3 +369,16 @@ Date: 2016-03-12T23:19:19  Action: Sold   User: Erik_debug  Item: Mellerud  Amou
 Date: 2016-03-12T23:19:21  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
 Date: 2016-03-12T23:19:23  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
 Date: 2016-03-12T23:19:26  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-22T10:22:47  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-22T10:23:00  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-22T10:23:35  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-22T10:23:42  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-22T10:23:47  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-22T10:23:50  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-22T10:24:15  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:06:00  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:06:07  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:06:09  Action: Sold   User: Erik_debug  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:06:11  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:06:13  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:06:15  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
