@@ -382,3 +382,282 @@ Date: 2016-03-22T11:06:09  Action: Sold   User: Erik_debug  Item: Mellerud  Amou
 Date: 2016-03-22T11:06:11  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
 Date: 2016-03-22T11:06:13  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
 Date: 2016-03-22T11:06:15  Action: Sold   User: Erik_debug  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:21:57  Action: Sold   User: defult-user  Item: Marke  Amount: 1
+Date: 2016-03-22T11:45:44  Action: Bought   User: defult-user  Item: Bitburger  Amount: 48
+Date: 2016-03-22T11:45:44  Action: Bought   User: defult-user  Item: Mellerud  Amount: 48
+Date: 2016-03-22T11:45:48  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:45:51  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:45:54  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:45:56  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:45:59  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:46:02  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:46:11  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:46:14  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:46:17  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:46:20  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:46:42  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:46:47  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:46:50  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:46:52  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:46:54  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:46:56  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:46:58  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:46:59  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:47:07  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:47:10  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:47:35  Action: Create new item   User: defult-user  Index:2
+Date: 2016-03-22T11:48:03  Action: Name-change   User: defult-user  Old-name: unknown  New-name: Lindemans apple
+Date: 2016-03-22T11:48:13  Action: Price-change   User: defult-user  Name: Lindemans apple  New-price: 20
+Date: 2016-03-22T11:48:23  Action: cost-change   User: defult-user  Name: Lindemans apple  New-cost: 20
+Date: 2016-03-22T11:48:31  Action: Create new item   User: defult-user  Index:3
+Date: 2016-03-22T11:48:41  Action: Name-change   User: defult-user  Old-name: unknown  New-name: falt tire
+Date: 2016-03-22T11:48:46  Action: Price-change   User: defult-user  Name: falt tire  New-price: 13
+Date: 2016-03-22T11:48:54  Action: cost-change   User: defult-user  Name: falt tire  New-cost: 13
+Date: 2016-03-22T11:49:17  Action: Create new item   User: defult-user  Index:4
+Date: 2016-03-22T11:49:34  Action: Name-change   User: defult-user  Old-name: unknown  New-name: twisted tistle
+Date: 2016-03-22T11:49:44  Action: Price-change   User: defult-user  Name: twisted tistle  New-price: 20
+Date: 2016-03-22T11:49:52  Action: cost-change   User: defult-user  Name: twisted tistle  New-cost: 20
+Date: 2016-03-22T11:50:14  Action: Bought   User: defult-user  Item: twisted tistle  Amount: 48
+Date: 2016-03-22T11:50:14  Action: Bought   User: defult-user  Item: falt tire  Amount: 48
+Date: 2016-03-22T11:50:14  Action: Bought   User: defult-user  Item: Lindemans apple  Amount: 48
+Date: 2016-03-22T11:50:42  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:50:43  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:50:45  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T11:50:48  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:50:50  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:50:51  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:50:53  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T11:51:02  Action: Sold   User: defult-user  Item: Midvinterblot  Amount: 1
+Date: 2016-03-22T11:51:05  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:51:08  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:51:10  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:12  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:14  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:16  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:51:18  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:51:21  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:51:23  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:51:25  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:51:29  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:31  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:34  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:37  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:40  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:46  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:48  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:50  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:53  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:54  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:56  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:51:58  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:52:01  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:52:03  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:52:05  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:52:07  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:52:09  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:52:12  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:52:14  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:52:17  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:52:18  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:52:21  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:52:23  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T11:52:25  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:52:27  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:52:29  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:52:34  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:52:36  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T11:52:38  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:52:40  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:52:42  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:52:44  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:52:46  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:52:48  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:52:55  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:52:57  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:52:58  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:00  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:02  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:04  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:06  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:53:08  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:53:11  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:53:13  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:53:16  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:53:18  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:21  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:53:23  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:53:25  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:53:27  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:53:30  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:32  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:53:34  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:53:36  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:53:39  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:53:42  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:53:45  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:49  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:51  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:53  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:55  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:57  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:53:59  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:54:02  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:54:34  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:54:35  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:54:40  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:54:42  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:54:45  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T11:54:47  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:54:51  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:54:53  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:54:55  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:54:57  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:54:59  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:55:02  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T11:55:04  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:55:06  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:55:12  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:55:15  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:55:17  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:55:20  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T11:55:22  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:55:28  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:55:33  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:55:41  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:55:46  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:55:50  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:55:56  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:56:00  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:56:04  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:56:08  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:56:13  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:56:16  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:56:18  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T11:56:56  Action: Bought   User: defult-user  Item: Mellerud  Amount: 48
+Date: 2016-03-22T11:56:56  Action: Bought   User: defult-user  Item: twisted tistle  Amount: 48
+Date: 2016-03-22T11:56:56  Action: Bought   User: defult-user  Item: Bitburger  Amount: 48
+Date: 2016-03-22T11:59:40  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:59:44  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T11:59:47  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:59:50  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:59:53  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:59:56  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T11:59:59  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T12:00:04  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T12:00:08  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T12:00:16  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 10
+Date: 2016-03-22T12:00:23  Action: Sold   User: defult-user  Item: Bitburger  Amount: 10
+Date: 2016-03-22T12:00:29  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T12:00:33  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T12:00:35  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T12:00:44  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 20
+Date: 2016-03-22T12:01:28  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 10
+Date: 2016-03-22T12:01:36  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 0
+Date: 2016-03-22T12:01:43  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 0
+Date: 2016-03-22T12:01:52  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 0
+Date: 2016-03-22T14:12:40  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:12:43  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:12:45  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:12:48  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:12:50  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:12:52  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:12:55  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:12:58  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:01  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:04  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:06  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:09  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:12  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:16  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:19  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:23  Action: Sold   User: defult-user  Item: Mellerud  Amount: 10
+Date: 2016-03-22T14:13:29  Action: Sold   User: defult-user  Item: Mellerud  Amount: 10
+Date: 2016-03-22T14:13:39  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T14:13:42  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T14:13:44  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:47  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T14:13:49  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:51  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:53  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:56  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:13:58  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:14:00  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:14:02  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:14:04  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T14:14:07  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:14:11  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T14:14:14  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:14:16  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:14:19  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:14:21  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T14:14:23  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T14:14:26  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T14:14:29  Action: Sold   User: defult-user  Item: falt tire  Amount: 1
+Date: 2016-03-22T14:14:32  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T14:14:35  Action: Sold   User: defult-user  Item: twisted tistle  Amount: 1
+Date: 2016-03-22T14:14:38  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T14:14:42  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T14:14:46  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:14:49  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:14:53  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:14:57  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:15:00  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:15:03  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T14:16:42  Action: Name-change   User: defult-user  Old-name: falt tire  New-name: Falt tire
+Date: 2016-03-22T14:17:02  Action: Name-change   User: defult-user  Old-name: twisted tistle  New-name: Twisted tistle
+Date: 2016-03-22T14:17:17  Action: Create new item   User: defult-user  Index:6
+Date: 2016-03-22T14:17:20  Action: Create new item   User: defult-user  Index:7
+Date: 2016-03-22T14:17:24  Action: Create new item   User: defult-user  Index:8
+Date: 2016-03-22T14:17:27  Action: Create new item   User: defult-user  Index:9
+Date: 2016-03-22T14:17:31  Action: Create new item   User: defult-user  Index:10
+Date: 2016-03-22T14:17:38  Action: Create new item   User: defult-user  Index:11
+Date: 2016-03-22T14:17:42  Action: Create new item   User: defult-user  Index:12
+Date: 2016-03-22T14:18:12  Action: Name-change   User: defult-user  Old-name: unknown  New-name: Ginger Joe
+Date: 2016-03-22T14:18:18  Action: Price-change   User: defult-user  Name: Ginger Joe  New-price: 25
+Date: 2016-03-22T14:18:30  Action: cost-change   User: defult-user  Name: Ginger Joe  New-cost: 25
+Date: 2016-03-22T14:18:49  Action: Name-change   User: defult-user  Old-name: unknown  New-name: Strongbow
+Date: 2016-03-22T15:42:23  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T15:42:30  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-03-22T15:42:34  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T15:42:36  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T15:42:38  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T15:42:41  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T19:26:26  Action: Name-change   User: defult-user  Old-name: unknown  New-name: VanDerGhinste
+Date: 2016-03-22T19:26:35  Action: Price-change   User: defult-user  Name: VanDerGhinste  New-price: 25
+Date: 2016-03-22T19:26:47  Action: cost-change   User: defult-user  Name: VanDerGhinste  New-cost: 25
+Date: 2016-03-22T19:27:01  Action: Add saldo   User: defult-user  Amount: kr Message: 
+Date: 2016-03-22T19:27:06  Action: Add saldo   User: defult-user  Amount: kr Message: 
+Date: 2016-03-22T19:27:52  Action: Sold   User: defult-user  Item: Falt tire  Amount: 1
+Date: 2016-03-22T19:28:10  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T19:28:20  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T19:28:25  Action: Sold   User: defult-user  Item: Falt tire  Amount: 1
+Date: 2016-03-22T19:29:56  Action: Sold   User: defult-user  Item: Twisted tistle  Amount: 1
+Date: 2016-03-22T19:30:02  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-03-22T19:30:05  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-03-22T19:34:59  Action: Sold   User: defult-user  Item: Twisted tistle  Amount: 1
+Date: 2016-04-02T11:25:53  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-04-02T11:25:56  Action: Sold   User: defult-user  Item: Falt tire  Amount: 1
+Date: 2016-04-02T11:25:59  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-04-02T11:26:04  Action: Sold   User: defult-user  Item: Twisted tistle  Amount: 1
+Date: 2016-04-02T11:26:08  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-04-02T11:26:11  Action: Sold   User: defult-user  Item: Falt tire  Amount: 1
+Date: 2016-04-02T11:26:15  Action: Sold   User: defult-user  Item: Falt tire  Amount: 1
+Date: 2016-04-02T11:26:38  Action: Sold   User: defult-user  Item: Falt tire  Amount: 1
+Date: 2016-04-02T11:26:41  Action: Sold   User: defult-user  Item: Twisted tistle  Amount: 1
+Date: 2016-04-02T11:26:44  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-04-02T11:26:48  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-04-02T11:34:27  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-04-02T13:18:21  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-04-02T13:18:23  Action: Sold   User: defult-user  Item: Marke  Amount: 1
+Date: 2016-04-02T13:18:27  Action: Sold   User: defult-user  Item: Twisted tistle  Amount: 1
+Date: 2016-04-02T13:18:30  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-04-02T13:18:32  Action: Sold   User: defult-user  Item: Falt tire  Amount: 1
+Date: 2016-04-02T13:18:35  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-04-02T13:18:39  Action: Sold   User: defult-user  Item: Falt tire  Amount: 1
+Date: 2016-04-02T13:18:42  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-04-02T13:18:45  Action: Sold   User: defult-user  Item: Bitburger  Amount: 1
+Date: 2016-04-02T13:18:49  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-04-02T13:18:52  Action: Sold   User: defult-user  Item: Lindemans apple  Amount: 1
+Date: 2016-04-02T13:18:55  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
+Date: 2016-04-02T13:19:23  Action: Bought   User: defult-user  Item: Midvinterblot  Amount: 3
+Date: 2016-04-02T13:19:23  Action: Bought   User: defult-user  Item: Marke  Amount: 12

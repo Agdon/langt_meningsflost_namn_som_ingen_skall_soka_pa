@@ -40,7 +40,12 @@
 
 (define call-primary-window ;;huvud fönster
   (lambda (user-name rights-level)
-    (define com-port (setup-serial-port (file->string "com_port.txt") 9600))
+    (define com-port (if (file-exists? "com_port.txt")
+                         (setup-serial-port (file->string "com_port.txt") 9600)
+                         #f))
+    (define path-list (if (file-exists? "paths.txt")
+                          (string-split (file->string "paths.txt" #:mode 'text))
+                          (list "" "" "")))
     (define start-time (current-date))
     
     (define working-database(if (file-exists? "working.database")
@@ -210,7 +215,7 @@
         (let ((t-price (+ (* 100 (string->number (send buy-total-price-kr get-value))) (string->number (send buy-total-price-ore get-value)))))
           (if (and (confirm-modal) (integer? t-price))
               (begin
-                (let ((csv-name (string-append "Iköpskvitto_" (string-replace (date->string (current-date) #t) ":" "_") ".csv")))
+                (let ((csv-name (string-append (car path-list) "Iköpskvitto_" (string-replace (date->string (current-date) #t) ":" "_") ".csv")))
                   (send buy-total-price-kr set-value "0")
                   (send buy-total-price-ore set-value "0")
                   (display-to-file (string-append ";Date;" (date->string (current-date) #t) ";Inkop Attestupan;Namn;" "\r\n" ";Index;Namn;Antal;Styck pris;Totalpris;\r\n") csv-name #:exists 'replace)  
@@ -280,7 +285,7 @@
                 (send working-database sell index num)
                 (send sold-list-handler add index num)
                 (display-to-file (string-append "(list " (number->string (current-seconds)) "  " (list->string (list #\")) (send working-database get-item-name index) (list->string (list #\")) "  " (number->string num) "" " " (number->string (send working-database get-item-cost index)) "  " (number->string (send working-database get-item-price index)) " ) ")  "statistics.txt" #:exists 'append)
-                (write-sale-recipt (send sold-list-handler get-full-list) (string-append "Försäljnings_kvitto_" (string-replace (date->string start-time #t) ":" "_") ".csv"))
+                (write-sale-recipt (send sold-list-handler get-full-list) (string-append (car (cdr path-list)) "Försäljnings_kvitto_" (string-replace (date->string start-time #t) ":" "_") ".csv"))
                 (display-to-file (string-append 
                                   "Date: " 
                                   (date->string (current-date) #t) 
@@ -295,7 +300,7 @@
                                  "Log.txt"
                                  #:exists 'append)
                 (send sell-amount set-value "1")
-                (serial-port-write com-port "1")
+                (if com-port (serial-port-write com-port "1") (void))
                 (if (eq? 'donewrite (create-database-file "working.database" working-database))
                     (update-lists)
                     (void)))))))
@@ -366,7 +371,8 @@
                                                          (number->string (real->double-flonum (/ (send working-database get-saldo-valv) 100)))
                                                          "kr  Värde på inventarier: " 
                                                          (number->string (real->double-flonum (/ (send working-database get-inventory-value) 100)))
-                                                         "kr"))))))
+                                                         "kr"))
+            (collect-garbage)))))
     (define buy-list-add-func
       (lambda (b e)
         (send add-to-buy-list-frame show #t)))
@@ -596,7 +602,7 @@
                                         [label "Öppna kassan"]
                                         [parent edit-horiz-panel-4]
                                         [callback (lambda (b e)
-                                                    (serial-port-write com-port "1"))]))
+                                                    (if com-port (serial-port-write com-port "1") (bell)))]))
     (define edit-name-text (new text-field%
                                 [parent edit-horiz-panel-1]
                                 [label "Namn"]
@@ -838,7 +844,7 @@
       (send m-file-New enable #f)
       (send working-database sort-items-by-index)
       (display-to-file (string-append ";" (date->string start-time) ";" (number->string (real->double-flonum (/ (send working-database get-saldo) 100))) ";" (number->string (real->double-flonum (/ (send working-database get-saldo-valv) 100))) " \n\r") "saldo_stats.csv" #:exists 'append)
-      (create-database-file (string-append "Backup_" (date->string (current-date)) ".database") working-database)
+      (create-database-file (string-append (car (cdr (cdr path-list))) "Backup_" (date->string (current-date)) ".database") working-database)
       (update-lists)
       (send the-frame show #t)
      )))
