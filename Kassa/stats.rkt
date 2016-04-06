@@ -30,10 +30,11 @@
       (lambda () (map cdr index-amount-list)))
     (define/public get-full-list
       (lambda () index-amount-list))))
-
+(define-namespace-anchor anc)
+(define ns (namespace-anchor->namespace anc))
 (define statistics-generator
   (lambda ()
-    (define statistic-list (eval (read (open-input-string (string-append (file->string "statistics.txt" #:mode 'text) " )")))))
+    (define statistic-list (eval (read (open-input-string (string-append (file->string "statistics.txt" #:mode 'text) " )"))) ns))
     (define generate-normal-statistics
       (lambda (start-sec end-sec)
         (let ((working-list (filter (lambda (ele) (and (> (car ele) start-sec) (< (car ele) end-sec))) statistic-list)))
@@ -130,5 +131,5 @@
     (begin
       (send statistics-frame show #t))))
                                                                                     
-                                       
+   (statistics-generator)                                  
     

@@ -661,3 +661,22 @@ Date: 2016-04-02T13:18:52  Action: Sold   User: defult-user  Item: Lindemans app
 Date: 2016-04-02T13:18:55  Action: Sold   User: defult-user  Item: Mellerud  Amount: 1
 Date: 2016-04-02T13:19:23  Action: Bought   User: defult-user  Item: Midvinterblot  Amount: 3
 Date: 2016-04-02T13:19:23  Action: Bought   User: defult-user  Item: Marke  Amount: 12
+Date: 2016-04-02T15:57:23  Action: Price-change   User: admin  Name: Mellerud  New-price: 15
+Date: 2016-04-02T15:57:24  Action: cost-change   User: admin  Name: Mellerud  New-cost: 15
+Date: 2016-04-02T15:57:25  Action: Name-change   User: admin  Old-name: Mellerud  New-name: Mellerud
+Date: 2016-04-02T16:00:04  Action: Price-change   User: admin  Name: Mellerud  New-price: 15
+Date: 2016-04-02T16:00:04  Action: cost-change   User: admin  Name: Mellerud  New-cost: 15
+Date: 2016-04-02T16:00:04  Action: Name-change   User: admin  Old-name: Mellerud  New-name: Mellerud
+Date: 2016-04-02T16:00:26  Action: Price-change   User: admin  Name: Mellerud  New-price: 20
+Date: 2016-04-02T16:00:26  Action: cost-change   User: admin  Name: Mellerud  New-cost: 20
+Date: 2016-04-02T16:00:26  Action: Name-change   User: admin  Old-name: Mellerud  New-name: Melleru
+Date: 2016-04-02T16:00:42  Action: Price-change   User: admin  Name: Lindemans apple  New-price: 21
+Date: 2016-04-02T16:00:42  Action: cost-change   User: admin  Name: Lindemans apple  New-cost: 21
+Date: 2016-04-02T16:00:42  Action: Name-change   User: admin  Old-name: Lindemans apple  New-name: Lindemans apple
+Date: 2016-04-02T17:51:37  Action: Sold   User:   Item: Melleru  Amount: 1
+Date: 2016-04-02T17:51:42  Action: Sold   User:   Item: Melleru  Amount: 1
+Date: 2016-04-02T17:51:45  Action: Sold   User:   Item: Melleru  Amount: 1
+Date: 2016-04-02T17:51:48  Action: Sold   User:   Item: Melleru  Amount: 1
+Date: 2016-04-02T17:51:52  Action: Sold   User:   Item: Melleru  Amount: 1
+Date: 2016-04-03T14:05:51  Action: Sold   User: admin  Item: Bitburger  Amount: 1
+Date: 2016-04-03T14:23:51  Action: Sold   User:   Item: Bitburger  Amount: 1

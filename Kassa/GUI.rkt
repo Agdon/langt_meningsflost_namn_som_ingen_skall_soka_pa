@@ -7,8 +7,18 @@
 (require racket/date)
 (date-display-format 'iso-8601)
 (define login-function
-  (lambda (user-data-base)
-    (define login-func void)
+  (lambda ()
+    (define rights-level 0)
+    (define login-func
+      (lambda (b e)
+        (let ((user-name (send user-name-box get-value))
+              (password (send user-password-box get-value)))
+          (begin
+            (cond
+              ((and (equal? user-name "admin") (equal? password "stupan")) (set! rights-level 3))
+              (else (void)))
+            (send login-frame show #f)
+            (call-primary-window user-name rights-level)))))
     (define login-func-guest void)
     (define login-frame (new frame%
                              [label "Login"]
@@ -31,12 +41,12 @@
                               [label "Login"]
                               [parent login-panel]
                               [callback login-func]))
-    (define guest-button (new button%
+    #|(define guest-button (new button%
                               [label "Login as guest"]
                               [parent login-panel]
-                              [callback login-func-guest]))
-    
-    (send login-frame show #t)))
+                              [callback login-func-guest]))|#
+    (begin
+      (send login-frame show #t))))
 
 (define call-primary-window ;;huvud fönster
   (lambda (user-name rights-level)
@@ -45,20 +55,20 @@
                          #f))
     (define path-list (if (file-exists? "paths.txt")
                           (string-split (file->string "paths.txt" #:mode 'text))
-                          (list "" "" "")))
+                          (list "" "" "" "")))
     (define start-time (current-date))
     
     (define working-database(if (file-exists? "working.database")
                                 (read-database-file "working.database" (new database-class)) ;;läser in databas
                                 (new database-class))) ;;skapar ny om ingen finns
-    (define stats-file "statistics.txt")
+    (define stats-file (string-append (fourth path-list) "statistics.txt"))
     (define saldo-stats-file "saldo_stats.csv")
     (if (file-exists? "saldo_stats.csv")
         (void)
-        (display-to-file ";Date;kassa;valv \n\r" "saldo_stats.csv" #:exists 'replace))
-    (if (file-exists? "statistics.txt")
+        (display-to-file ";Datum;kassa;valv;inventarier \n\r" "saldo_stats.csv" #:exists 'replace))
+    (if (file-exists? stats-file)
         (void)
-        (display-to-file "(list " "statistics.txt" #:exists 'replace))
+        (display-to-file "(list " stats-file #:exists 'replace))
     (define start-saldo (send working-database get-saldo))
     (define the-frame (new frame% [label "Kassa"] ;;fönster
                            [width 600]
@@ -164,7 +174,7 @@
                            (send popup show #f))]))
         (define OK-dialog
           (new button%
-               [label "Bekfräfta"]
+               [label "Bekräfta"]
                [parent horiz-dialog]
                [callback (lambda (b e)
                            (begin
@@ -284,7 +294,7 @@
               (begin
                 (send working-database sell index num)
                 (send sold-list-handler add index num)
-                (display-to-file (string-append "(list " (number->string (current-seconds)) "  " (list->string (list #\")) (send working-database get-item-name index) (list->string (list #\")) "  " (number->string num) "" " " (number->string (send working-database get-item-cost index)) "  " (number->string (send working-database get-item-price index)) " ) ")  "statistics.txt" #:exists 'append)
+                (display-to-file (string-append "(list " (number->string (current-seconds)) "  " (list->string (list #\")) (send working-database get-item-name index) (list->string (list #\")) "  " (number->string num) "" " " (number->string (send working-database get-item-cost index)) "  " (number->string (send working-database get-item-price index)) " ) ")  stats-file #:exists 'append)
                 (write-sale-recipt (send sold-list-handler get-full-list) (string-append (car (cdr path-list)) "Försäljnings_kvitto_" (string-replace (date->string start-time #t) ":" "_") ".csv"))
                 (display-to-file (string-append 
                                   "Date: " 
@@ -372,38 +382,27 @@
                                                          "kr  Värde på inventarier: " 
                                                          (number->string (real->double-flonum (/ (send working-database get-inventory-value) 100)))
                                                          "kr"))
-            (collect-garbage)))))
+            ))))
     (define buy-list-add-func
       (lambda (b e)
         (send add-to-buy-list-frame show #t)))
     (define tab-selector
       ((lambda (old-tab)
          (lambda (b e)
-           (let ((new-tab (send selection-tabs get-selection)))
-             (cond
-               ((= 0 new-tab)
-                (begin
-                  (send selection-tabs add-child selling-panel)
-                  (cond
-                    ((= 1 old-tab) (send selection-tabs delete-child buying-panel))
-                    ((= 2 old-tab) (send selection-tabs delete-child admin-panel)))
-                  (set! old-tab new-tab)))
-               ((= 1 new-tab)
-                (begin
-                  (send selection-tabs add-child buying-panel)
-                  (cond
-                    ((= 0 old-tab) (send selection-tabs delete-child selling-panel))
-                    ((= 2 old-tab) (send selection-tabs delete-child admin-panel)))
-                  (set! old-tab new-tab)))
-               ((= 2 new-tab)
-                (begin
-                  (if #t ;(send user admin?)
-                      (send selection-tabs add-child admin-panel)
-                      (void))
-                  (cond
-                    ((= 0 old-tab) (send selection-tabs delete-child selling-panel))
-                    ((= 1 old-tab) (send selection-tabs delete-child buying-panel)))
-                  (set! old-tab new-tab)))))))
+           (let ((new-tab (send selection-tabs get-selection))
+                 (children (send selection-tabs get-children)))
+             (begin (for-each (lambda (ele) (send selection-tabs delete-child ele)) children)
+                    (cond
+                      ((= 0 new-tab)
+                       (send selection-tabs add-child selling-panel))
+                      ((= 1 new-tab)
+                       (if (< 1 rights-level)
+                           (send selection-tabs add-child buying-panel)
+                           (void)))
+                      ((= 2 new-tab)
+                       (if (< 2 rights-level)            
+                           (send selection-tabs add-child admin-panel)
+                           (void))))))))
        0))
     (define selection-tabs (new tab-panel%
                                 [choices (list "Försäljnig" "Inköp" "Administartion")]
@@ -476,19 +475,19 @@
                                [parent edit-horiz-panel-5]
                                [min-width 400]))
     (define move-saldo-button (new button%
-                                  [label "flytta pengar till valv"]
-                                  [parent edit-horiz-panel-5]
-                                  [callback (lambda (b e)
-                                              (let* ((str (get-text-modal))
-                                                     (amount (if (integer? (string->number str))
-                                                                 (* (string->number str) 100)
-                                                                 0)))
-                                                (begin
-                                                  
-                                                  (send working-database move-saldo-vaxel->saldo-valv amount)
-                                                  (if (eq? 'donewrite (create-database-file "working.database" working-database))
-                                                      (update-lists)
-                                                      (void)))))]))
+                                   [label "flytta pengar till valv"]
+                                   [parent edit-horiz-panel-5]
+                                   [callback (lambda (b e)
+                                               (let* ((str (get-text-modal))
+                                                      (amount (if (integer? (string->number str))
+                                                                  (* (string->number str) 100)
+                                                                  0)))
+                                                 (begin
+                                                   
+                                                   (send working-database move-saldo-vaxel->saldo-valv amount)
+                                                   (if (eq? 'donewrite (create-database-file "working.database" working-database))
+                                                       (update-lists)
+                                                       (void)))))]))
     (define add-saldo-button (new button%
                                   [label "lägg till pengar"]
                                   [parent edit-horiz-panel-5]
@@ -598,11 +597,11 @@
                                                                 (update-lists)
                                                                 (void)))
                                                           (bell))))]))
-     (define edit-open-cassh (new button%
-                                        [label "Öppna kassan"]
-                                        [parent edit-horiz-panel-4]
-                                        [callback (lambda (b e)
-                                                    (if com-port (serial-port-write com-port "1") (bell)))]))
+    (define edit-open-cassh (new button%
+                                 [label "Öppna kassan"]
+                                 [parent edit-horiz-panel-4]
+                                 [callback (lambda (b e)
+                                             (if com-port (serial-port-write com-port "1") (bell)))]))
     (define edit-name-text (new text-field%
                                 [parent edit-horiz-panel-1]
                                 [label "Namn"]
@@ -615,15 +614,15 @@
                                 [parent edit-horiz-panel-25]
                                 [label "Inköp Öre:"]
                                 [init-value "Skriv nytt inköps pris här"]))
-    (define edit-price-button (new button%
-                                   [label "Ändra"]
-                                   [parent edit-horiz-panel-2]
-                                   [callback (lambda (b e)
-                                               (let* ((lst-nr (send item-edit-list get-selections))
+    (define edit-product 
+      (lambda (a b)
+        (if (confirm-modal)
+        (begin
+          (let* ((lst-nr (send item-edit-list get-selections))
                                                       (index (if (not (eq? lst-nr null))
                                                                  (send item-edit-list get-data (car lst-nr))
                                                                  'noneselected)))
-                                                 (if (and (integer? (string->number (send edit-price-text get-value)))(confirm-modal)  (not (eq? index 'noneselected)))
+                                                 (if (and (integer? (string->number (send edit-price-text get-value)))  (not (eq? index 'noneselected)))
                                                      (begin
                                                        
                                                        (display-to-file (string-append 
@@ -639,21 +638,13 @@
                                                                          "\r\n")
                                                                         "Log.txt"
                                                                         #:exists 'append)
-                                                       (send working-database set-item-price! index (* 100 (string->number (send edit-price-text get-value))))
-                                                       
-                                                       (if (eq? 'donewrite (create-database-file "working.database" working-database))
-                                                           (update-lists)
-                                                           (void)))
-                                                     (bell))))]))
-    (define edit-cost-button (new button%
-                                  [label "Ändra"]
-                                  [parent edit-horiz-panel-25]
-                                  [callback (lambda (b e)
-                                              (let* ((lst-nr (send item-edit-list get-selections))
+                                                       (send working-database set-item-price! index (* 100 (string->number (send edit-price-text get-value)))))
+                                                     (bell)))
+          (let* ((lst-nr (send item-edit-list get-selections))
                                                      (index (if (not (eq? lst-nr null))
                                                                 (send item-edit-list get-data (car lst-nr))
                                                                 'noneselected)))
-                                                (if (and (integer? (string->number (send edit-cost-text get-value)))(confirm-modal)  (not (eq? index 'noneselected)))
+                                                (if (and (integer? (string->number (send edit-cost-text get-value)))  (not (eq? index 'noneselected)))
                                                     (begin
                                                       
                                                       (display-to-file (string-append 
@@ -669,21 +660,13 @@
                                                                         "\r\n")
                                                                        "Log.txt"
                                                                        #:exists 'append)
-                                                      (send working-database set-item-cost! index (string->number (send edit-cost-text get-value)))
-                                                      
-                                                      (if (eq? 'donewrite (create-database-file "working.database" working-database))
-                                                          (update-lists)
-                                                          (void)))
-                                                    (bell))))]))
-    (define edit-name-button (new button%
-                                  [label "Ändra"]
-                                  [parent edit-horiz-panel-1]
-                                  [callback (lambda (b e)
-                                              (let* ((lst-nr (send item-edit-list get-selections))
+                                                      (send working-database set-item-cost! index (string->number (send edit-cost-text get-value))))
+                                                    (bell)))
+          (let* ((lst-nr (send item-edit-list get-selections))
                                                      (index (if (not (eq? lst-nr null))
                                                                 (send item-edit-list get-data (car lst-nr))
                                                                 'noneselected)))
-                                                (if (and  (andmap (lambda (ele) (and (< (char->integer ele) 127) (< 31 (char->integer ele)))) (string->list (send edit-name-text get-value)))  (confirm-modal) (not (eq? index 'noneselected)))
+                                                (if (and  (andmap (lambda (ele) (and (< (char->integer ele) 127) (< 31 (char->integer ele)))) (string->list (send edit-name-text get-value))) (not (eq? index 'noneselected)))
                                                     (begin
                                                       
                                                       (display-to-file (string-append 
@@ -699,12 +682,29 @@
                                                                         "\r\n")
                                                                        "Log.txt"
                                                                        #:exists 'append)
-                                                      (send working-database set-item-name! index (send edit-name-text get-value))
-                                                      
-                                                      (if (eq? 'donewrite (create-database-file "working.database" working-database))
-                                                          (update-lists)
-                                                          (void)))
-                                                    (bell))))]))
+                                                      (send working-database set-item-name! index (send edit-name-text get-value)))
+                                                    (bell)))
+        (if (eq? 'donewrite (create-database-file "working.database" working-database))
+                                                           (update-lists)
+                                                           (void)))
+        (void))))
+          
+          
+   #| (define edit-price-button (new button%
+                                   [label "Ändra"]
+                                   [parent edit-horiz-panel-2]
+                                   [callback (lambda (b e)|#
+                                               
+    (define edit-cost-button (new button%
+                                  [label "Uppdatera"]
+                                  [parent edit-horiz-panel-25]
+                                  [callback edit-product]))
+                                              
+   #| (define edit-name-button (new button%
+                                  [label "Ändra"]
+                                  [parent edit-horiz-panel-1]
+                                  [callback (lambda (b e)|#
+                                              
     
     (define edit-for-sale-check-box (new check-box%
                                          [label "Till försäljning"]
@@ -843,9 +843,9 @@
       (send m-file-open enable #f)
       (send m-file-New enable #f)
       (send working-database sort-items-by-index)
-      (display-to-file (string-append ";" (date->string start-time) ";" (number->string (real->double-flonum (/ (send working-database get-saldo) 100))) ";" (number->string (real->double-flonum (/ (send working-database get-saldo-valv) 100))) " \n\r") "saldo_stats.csv" #:exists 'append)
+      (display-to-file (string-append ";" (date->string start-time) ";" (number->string (real->double-flonum (/ (send working-database get-saldo) 100))) ";" (number->string (real->double-flonum (/ (send working-database get-saldo-valv) 100))) ";" (number->string (real->double-flonum (/ (send working-database get-inventory-value) 100))) " \n\r") "saldo_stats.csv" #:exists 'append)
       (create-database-file (string-append (car (cdr (cdr path-list))) "Backup_" (date->string (current-date)) ".database") working-database)
       (update-lists)
       (send the-frame show #t)
-     )))
- (call-primary-window "defult-user" 3)
+      )))
+(login-function)
